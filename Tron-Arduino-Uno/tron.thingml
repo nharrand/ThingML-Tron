@@ -1,0 +1,455 @@
+import "../lib/_Arduino.thingml"
+import "../lib/_1_8pLCD.thingml"
+
+configuration TronCfg {
+
+	instance myLCD : Adafruit_1_8pLCDShieldShield
+    instance arduinoScheduler:  ArduinoScheduler
+    instance tron: Tron	
+    instance virtualSerial: VirtualPort
+    
+    connector tron.lcd => myLCD.lcd
+	connector tron.button => myLCD.button
+	connector tron.arduino => arduinoScheduler.arduino
+	connector myLCD.arduino => arduinoScheduler.arduino
+	connector virtualSerial.TronPort => tron.TronPort
+	
+}
+
+thing fragment TronMsgs {
+	message tronReady();
+	message tronGo();
+	message addHead(x : UInt8, y : UInt8, id : UInt8);
+	message loose(id : UInt8);
+}
+
+thing Tron includes Adafruit_1_8pLCDShieldClient, TronMsgs 
+@c_header "
+#define _SNAKE_TAB_SIZE 546 // 2184 / 4
+#include <SoftwareSerial.h>
+#include \"/home/sintef/Documents/ArduinoSerialForward/ArduinoSerialForward.h\" "
+@c_global "volatile uint8_t tab[_SNAKE_TAB_SIZE];"
+{
+	provided port TronPort {
+		sends addHead, loose, tronReady, tronGo
+		receives addHead, loose, tronReady, tronGo
+	}
+	
+	readonly property myID : UInt8 = 0
+	readonly property nbID : UInt8 = 3
+	property nbReady : UInt8 = 0
+	property headX : UInt8 = 10
+	property headY : UInt8 = 10
+	property tailX : UInt8 = 10
+	property tailY : UInt8 = 10
+	property headIndex : UInt16 = 0
+	property headIndexQuarter : UInt8 = 0
+	property lost : Boolean = false
+	property won : Boolean = false
+	property timer : UInt8  = 1
+	property speed : Integer = 500
+	property direction : UInt8
+	property dirBuff : UInt8 = 'B00000001'
+	property color : UInt16[3]
+	property hasLost : Boolean[3]
+	
+	function displayTab() do
+		'SWS_trace("[displayTab] Start\n");
+		for(uint16_t i = 0; i < '&headIndex&'; i++) {
+			SWS_trace("[");
+			SWS_trace(i);
+			SWS_trace("] ");
+			SWS_trace(tab[i]);
+			SWS_trace("\n ");
+		}'
+	end
+	
+	function hasWon() : Boolean do
+		'
+		bool won = true;
+		for(uint8_t i = 0; i < '&nbID&'; i++) {
+			if(i != '&myID&') {won &= '&hasLost['i']&';}
+		}'
+		return 'won'
+	end
+	
+	function addHeadDir(x : UInt8, y : UInt8, dir : UInt8) do
+		
+		TronPort!addHead(x, y, myID)
+		lcd!drawRect('2+3*'&x,'2+3*'&y,2,2,color[myID])
+		'uint8_t move = '&dir&';
+		uint8_t hI = '&headIndex&';
+		uint8_t hIQ = '&headIndexQuarter&';
+		
+		if (hIQ == 0) {
+			tab[hI] = B00000000;
+		}
+		
+		
+		tab[hI] |= (move << (2 * hIQ));
+		
+		hIQ = (hIQ + 1) % 4;
+		if (hIQ == 0) {
+			hI++;
+		}'
+		headX = x
+		headY = y
+		headIndex = 'hI'
+		headIndexQuarter = 'hIQ'
+	end
+	
+	function addHead(x : UInt8, y : UInt8) do
+		TronPort!addHead(x, y, myID)
+		'SWS_trace("[addHead] x: ");'
+		'SWS_trace('&x&');'
+		'SWS_trace(" | y: ");'
+		'SWS_trace('&y&');'
+		'SWS_trace("\n");'
+		//'SWS_trace(" | headX: ");'
+		//'SWS_trace('&headX&');'
+		//'SWS_trace(" | headY: ");'
+		//'SWS_trac('&headY&');'
+		//'SWS_trace("\n");'
+		
+		lcd!drawRect('2+3*'&x,'2+3*'&y,2,2,color[myID])
+		'uint8_t move = B00000000;
+		
+		if ('&headIndexQuarter&' == 0) {
+			tab['&headIndex&'] = B00000000;
+		}
+		
+		if ('&x&' == '&headX&') {
+			if ('&y&' > '&headY&') {
+				move |= B00000010;
+			}
+		} else {
+			move |= B00000001;
+			if ('&x&' < '&headX&') {
+				move |= B00000010;
+			}
+		}
+		
+		tab['&headIndex&'] |= (move << (2 * '&headIndexQuarter&'));
+		
+		//SWS_trace("tab <- ");
+		//SWS_trace(tab['&headIndex&']);
+		//SWS_trace("\n");
+		
+		'&headIndexQuarter&' = ('&headIndexQuarter&' + 1) % 4;
+		if ('&headIndexQuarter&' == 0) {
+			'&headIndex&'++;
+		}'
+		headX = x
+		headY = y
+		
+	end
+	
+	function outOfBound(x : UInt8, y : UInt8) : Boolean do
+		return ((x > 41) or (y > 51))
+	end
+	
+	function isInSnake(x : UInt8, y : UInt8) : Boolean do
+		//'SWS_trace("[isInSnake] x: ");'
+		//'SWS_trace('&x&');'
+		//'SWS_trace(" | y: ");'
+		//'SWS_trace('&y&');'
+		//'SWS_trace(" | tailX: ");'
+		//'SWS_trace('&tailX&');'
+		//'SWS_trace(" | tailY: ");'
+		//'SWS_trace('&tailY&');'
+		//'SWS_trace("\n");'
+		
+		
+		'bool found = false;
+		uint8_t curx = '&tailX&';
+		uint8_t cury = '&tailY&';
+		uint8_t targetx = '&x&';
+		uint8_t targety = '&y&';
+		uint16_t headIndex = '&headIndex&';
+		uint8_t  headIndexQuarter = '&headIndexQuarter&';
+		uint8_t curtab = 0;
+		
+		for(uint16_t i = 0; i < headIndex; i++) {
+			for(uint8_t q = 0; q < 4; q++) {
+				curtab = tab[i];
+				
+				
+				delayMicroseconds(1);
+				//SWS_trace("=> curx: ");
+				//SWS_trace(curx);
+				//SWS_trace(" | cury: ");
+				//SWS_trace(cury);
+				//SWS_trace("\n");
+				SWS_trace_BIN(curtab);
+				SWS_trace("\n");
+				
+				if ((targetx == curx) && (targety == cury)) {
+					return true;
+				}
+				switch((curtab >> (2 * q)) & B00000011) {
+					case B00000000:
+						cury--;
+					break;
+					case B00000001:
+						curx++;
+					break;
+					case B00000010:
+						cury++;
+					break;
+					case B00000011:
+						curx--;
+					break;
+				}
+				
+				
+			}
+		}
+		
+		for(uint8_t q = 0; q < headIndexQuarter; q++) {
+				
+				
+				delayMicroseconds(1);
+				//SWS_trace("=> curx: ");
+				//SWS_trace(curx);
+				//SWS_trace(" | cury: ");
+				//SWS_trace(cury);
+				//SWS_trace("\n");
+				
+				if ((targetx == curx) && (targety == cury)) {
+					return true;
+				}
+				curtab = tab[headIndex];
+				
+				switch((curtab >> (2 * q)) & B00000011) {
+					case B00000000:
+						cury--;
+					break;
+					case B00000001:
+						curx++;
+					break;
+					case B00000010:
+						cury++;
+					break;
+					case B00000011:
+						curx--;
+					break;
+				}
+				
+				
+			}'
+		return false
+	end
+	
+	statechart TronStateChart init Init {
+		state Init {
+			transition -> Waiting event lcd?LCDready
+		}
+		state Waiting {
+			on entry do
+			
+				'SWS_trace("[Tron] Waiting\n");'
+				lcd!clear()
+                lcd!drawRect(1,1,127,157,'0xFFFF')
+                lcd!set_cursor(16,68)
+                lcd!print_str("Welcome to Tron!")
+                lcd!set_cursor(12,78)
+                lcd!print_str("Press the joystick")
+                lcd!set_cursor(40,88)
+                lcd!print_str("to start")
+				
+				color[0] = '0x001F'
+				color[1] = '0xF800'
+				color[2] = '0x3FE0'
+				
+				hasLost[0] = false
+				hasLost[1] = false
+				hasLost[2] = false
+			end
+			
+			internal event TronPort?tronReady action do
+				'SWS_trace("[Tron] tronReady received\n");'
+				nbReady = nbReady + 1
+			end
+			
+			transition -> RendezVous event button?button_state_change guard (nbReady < nbID-1)
+			transition -> Game event button?button_state_change action do
+				TronPort!tronGo()
+				nbReady = 0
+				'SWS_trace("[Tron] go to Game\n");'
+				lcd!clear()
+                lcd!drawRect(1,1,127,157,'0xFFFF')
+               
+                lcd!drawRect('2+3*'&headX,'2+3*'&headY,2,2,color[myID])
+				TronPort!addHead(headX, headY, myID)
+			end
+		}
+		
+		state RendezVous {
+			on entry do
+				'SWS_trace("[Tron] Rendez vous\n");'
+				lcd!clear()
+                lcd!drawRect(1,1,127,157,'0xFFFF')
+                lcd!set_cursor(12,78)
+                lcd!print_str("Waiting for others")
+				nbReady = nbReady + 1
+				
+				TronPort!tronReady()
+			end
+			
+			on exit do 
+				nbReady = 0
+				'SWS_trace("[Tron] go to Game\n");'
+				lcd!clear()
+                lcd!drawRect(1,1,127,157,'0xFFFF')
+               
+                lcd!drawRect('2+3*'&headX,'2+3*'&headY,2,2,color[myID])
+				TronPort!addHead(headX, headY, myID)
+			end
+			
+			//internal event TronPort?tronReady action do
+			//	nbReady = nbReady + 1
+			//end
+			
+			transition -> Game event TronPort?tronGo
+			transition -> Game event TronPort?tronReady guard (nbReady > nbID-2) action do
+				TronPort!tronGo()
+			end
+		}
+		
+		state Game {
+			on entry do
+				'SWS_trace("[Tron] Game\n");'
+				nbReady = 0
+				arduino!timer_start(timer, speed)
+			end
+				
+			internal event e : button?button_state_change guard ((e.bstate == 1) or (e.bstate == 2) or (e.bstate == 4) or (e.bstate == 5)) action do
+				if (e.bstate == 4) do
+					dirBuff = 'B00000000'
+				end
+				if (e.bstate == 2) do
+					dirBuff = 'B00000001'
+				end
+				if (e.bstate == 1) do
+					dirBuff = 'B00000010'
+				end
+				if (e.bstate == 5) do
+					dirBuff = 'B00000011'
+				end
+			end
+			
+			internal event e : TronPort?addHead action do
+				'SWS_trace("[Tron] received addHead (x:");'
+				'SWS_trace('&e.x&');'
+				'SWS_trace(", y:");'
+				'SWS_trace('&e.y&');'
+				'SWS_trace(")\n");'
+				lcd!drawRect('2+3*'&e.x,'2+3*'&e.y,2,2,color[e.id])
+				if (isInSnake(e.x, e.y)) do
+					TronPort!loose(e.id)
+					hasLost[e.id] = true
+					won = hasWon()
+				end
+			end
+			
+			internal event arduino?timeout guard not(lost or won) action do
+				arduino!timer_start(timer, speed)
+				direction = dirBuff
+				'switch('&direction&') {
+					case B00000000:
+						'
+						if(isInSnake(headX, headY-1)) do
+							lost = true
+							TronPort!loose(myID)
+						end
+						addHeadDir(headX, headY-1, direction)'
+					break;
+					case B00000001:
+						'
+						if(isInSnake(headX+1, headY)) do
+							lost = true
+							TronPort!loose(myID)
+						end
+						addHeadDir(headX+1, headY, direction)'
+					break;
+					case B00000010:
+						'
+						if(isInSnake(headX, headY+1)) do
+							lost = true
+							TronPort!loose(myID)
+						end
+						addHeadDir(headX, headY+1, direction)'
+					break;
+					case B00000011:
+						'
+						if(isInSnake(headX-1, headY)) do
+							lost = true
+							TronPort!loose(myID)
+						end
+						addHeadDir(headX-1, headY, direction)'
+					break;
+				}' 
+				if(outOfBound(headX, headY)) do
+					lost = true
+					TronPort!loose(myID)
+				end
+			end
+			
+			internal event e : TronPort?loose guard (e.id == myID) action do
+				lost = true
+			end
+			
+			internal event e : TronPort?loose guard not(e.id == myID) action do
+				hasLost[e.id] = true
+				won = hasWon()
+			end
+			
+			transition -> Defeat event arduino?timeout guard lost
+			transition -> Victory event arduino?timeout guard won
+			//transition -> Defeat event e : TronPort?loose guard (e.id == myID)
+			//transition -> Victory event e : TronPort?loose guard not(e.id == myID)//guard (nbReady == (nbID - 1))
+		}
+		
+		state Defeat {
+			on entry do
+				'SWS_trace("[Tron] Defeat\n");'
+				lcd!clear()
+                lcd!drawRect(1,1,127,157,'0xFFFF')
+                lcd!set_cursor(45,78)
+                lcd!print_str("Defeat!")
+			end
+			
+			internal event e : TronPort?addHead action do
+				if (isInSnake(e.x, e.y)) do
+					TronPort!loose(e.id)
+				end
+			end
+		}
+		
+		state Victory {
+			on entry do
+				'SWS_trace("[Tron] Victor\ny");'
+				displayTab()
+				lcd!clear()
+                lcd!drawRect(1,1,127,157,'0xFFFF')
+                lcd!set_cursor(44,78)
+                lcd!print_str("Victory!")
+			end
+		}
+	}
+	
+}
+
+thing VirtualPort includes TronMsgs 
+{
+	required port TronPort {
+		sends tronReady, tronGo, addHead, loose
+		receives  tronReady, tronGo, addHead, loose
+	}
+	
+	statechart bChart init Init {
+		state Init{
+		}
+	}
+	
+}

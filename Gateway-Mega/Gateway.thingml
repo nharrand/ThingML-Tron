@@ -1,0 +1,213 @@
+/*
+Broadcasting gateway for arduino mega
+
+This program forward any thingml that it receive on a serial port to the two others
+*/
+
+import "../lib/_Arduino.thingml"
+
+//Do not forget to initialize Serial at the begining of setup()
+/*
+  mutex_setup();
+  Serial.begin(115200);
+  Serial1.begin(115200);
+  Serial2.begin(115200);
+  Serial3.begin(115200);
+*/
+
+configuration GatewayCfg 
+{
+	instance gateway1 : Gateway
+	instance gateway2 : Gateway
+	instance gateway3 : Gateway
+}
+
+thing Gateway 
+@c_header "#include \"/home/sintef/Documents/CrashTest-Arduino-ThingML/Gateway-Mega/mutex.h\""
+{
+	property newByte : Boolean = false
+	property Error : Boolean = false
+	property incByte : Byte = 0
+	property START_BYTE : Byte = 18
+	property STOP_BYTE : Byte = 19
+	property ESCAPE_BYTE : Byte = 125
+	property buffer : Byte[16]
+	property msgSize : Byte = 0
+	property numPort : Byte = 1
+	
+	function SerialAvailable() : Boolean do
+		if(numPort == 1) do
+			return 'Serial1.available()'
+		end
+		if(numPort == 2) do
+			return 'Serial2.available()'
+		end
+		if(numPort == 3) do
+			return 'Serial3.available()'
+		end
+	end
+	
+	function SerialRead() : Byte do
+		if(numPort == 1) do
+			return 'Serial1.read()'
+		end
+		if(numPort == 2) do
+			return 'Serial2.read()'
+		end
+		if(numPort == 3) do
+			return 'Serial3.read()'
+		end
+	end
+	/*
+	function forwardMsg() do
+		'for(byte i = 0; i < '&msgSize&'; i++) {'
+			if (not(numPort == 1)) do
+				'Serial1.write('&buffer['i']&');'
+			end
+			if (not(numPort == 2)) do
+				'Serial2.write('&buffer['i']&');'
+			end
+			if (not(numPort == 3)) do
+				'Serial3.write('&buffer['i']&');'
+			end
+		'}'
+		msgSize = 0
+	end
+	*/
+	function forwardMsg() do
+		if (not(numPort == 0)) do
+			'mutex_lock(0, '&numPort&');'
+			'for(byte i = 0; i < '&msgSize&'; i++) {'
+				'Serial.write('&buffer['i']&');'
+			'}'
+			'mutex_unlock(0, '&numPort&');'
+		end
+		if (not(numPort == 1)) do
+			'mutex_lock(1, '&numPort&');'
+			'for(byte i = 0; i < '&msgSize&'; i++) {'
+				'Serial1.write('&buffer['i']&');'
+			'}'
+			'mutex_unlock(1, '&numPort&');'
+		end
+		if (not(numPort == 2)) do
+			'mutex_lock(2, '&numPort&');'
+			'for(byte i = 0; i < '&msgSize&'; i++) {'
+				'Serial2.write('&buffer['i']&');'
+			'}'
+			'mutex_unlock(2, '&numPort&');'
+		end
+		if (not(numPort == 3)) do
+			'mutex_lock(3, '&numPort&');'
+			'for(byte i = 0; i < '&msgSize&'; i++) {'
+				'Serial3.write('&buffer['i']&');'
+			'}'
+			'mutex_unlock(3, '&numPort&');'
+		end
+		msgSize = 0
+	end
+	
+	function addToBuffer(b : Byte) : Boolean do
+		if(msgSize < 16) do
+			buffer[msgSize] = b
+			msgSize = msgSize + 1
+			return false
+		end
+		if(msgSize == 16) do
+			msgSize = 0
+			'Serial.println("Error");'
+			return true
+		end
+	end
+	
+	function actualize() do
+		if (SerialAvailable()) do
+			newByte = true
+			incByte = SerialRead()
+		end
+	end
+	
+	statechart GatewayChart init Idle {
+		
+		state Idle {
+			on entry do
+				Error = false
+				actualize()
+				
+				'Serial.print("[Gateway] Idle ");'
+				if(newByte) do
+					'Serial.print('&incByte&');'
+				end
+				'Serial.println();'
+				
+			end
+			
+			on exit do
+				newByte = false
+			end
+			
+			transition -> Idle guard not(newByte)
+			transition -> Reading guard (incByte == START_BYTE) action do
+				Error = addToBuffer(incByte)
+			end
+			transition -> Idle
+		}
+		
+		state Reading {
+			on entry do
+				actualize()
+				
+				'Serial.print("[Gateway] Reading ");'
+				if(newByte) do
+					'Serial.print('&incByte&');'
+				end
+				'Serial.println();'
+				
+			end
+			
+			on exit do
+				newByte = false
+			end
+			
+			transition -> Error guard Error
+			transition -> Reading guard not(newByte)
+			transition -> Idle guard (incByte == STOP_BYTE) action do
+				Error = addToBuffer(incByte)
+				forwardMsg()
+			end
+			transition -> Escape guard (incByte == ESCAPE_BYTE) action do
+				Error = addToBuffer(incByte)
+			end
+			transition -> Reading guard newByte action do
+				Error = addToBuffer(incByte)
+			end
+		}
+		state Escape {
+			on entry do
+				actualize()
+				
+				'Serial.print("[Gateway] Escape  ");'
+				if(newByte) do
+					'Serial.print('&incByte&');'
+				end
+				'Serial.println();'
+				
+			end
+			
+			on exit do
+				newByte = false
+			end
+			
+			transition -> Error guard Error
+			transition -> Reading guard not(newByte)
+			transition -> Reading guard newByte action do
+				addToBuffer(incByte)
+			end
+			}
+		state Error {
+			on entry do
+				'Serial.println("[Gateway] Error  ");'
+			end
+			transition -> Idle
+		}
+	}
+}
