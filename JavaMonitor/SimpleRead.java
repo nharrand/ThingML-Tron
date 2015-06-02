@@ -46,6 +46,7 @@ public class SimpleRead {
     	public int bufferSize = 32;
     	public SerialPort serialPort;
     	public TronMonitor monitor;
+    	public boolean[] hasLost;
     	
     	public SerialPortReader(SerialPort sp, TronMonitor m) {
     		super();
@@ -53,6 +54,22 @@ public class SimpleRead {
     		state = SerialMachineState.Idle;
     		serialPort = sp;
     		monitor = m;
+    		hasLost = new boolean[3];
+    		hasLost[0] = false;
+    		hasLost[1] = false;
+    		hasLost[2] = false;
+    	}
+    	
+    	public int victory() {
+    		if(hasLost[0] && hasLost[1]) {
+    			return 2;
+    		} else if(hasLost[0] && hasLost[2]) {
+    			return 1;
+    		} else if(hasLost[1] && hasLost[2]) {
+    			return 0;
+    		} else {
+    			return 256;
+    		}
     	}
     	
     	public void parse(byte[] msgBuffer, int msgSize) {
@@ -94,12 +111,16 @@ public class SimpleRead {
 					
 				case 6://addHead
 					System.out.println("[SerialPort] received 6");
-					monitor.paintSquare(msgBuffer[5], msgBuffer[6], msgBuffer[7]);
+					if((msgBuffer[5] < 42) && (msgBuffer[6] < 52)) {
+						monitor.paintSquare(msgBuffer[5], msgBuffer[6], msgBuffer[7]);
+					}
 					break;
 					
 				case 7://tronLoose
 					System.out.println("[SerialPort] received 7 loose");
-					
+					hasLost[msgBuffer[5]] = true;
+					monitor.fenetre.paintingPanel.victory = victory();
+					monitor.fenetre.paintingPanel.repaint();
 					break;
 					
 				case 8:
