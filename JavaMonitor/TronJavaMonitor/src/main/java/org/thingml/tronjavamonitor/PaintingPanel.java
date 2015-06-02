@@ -56,7 +56,7 @@ public class PaintingPanel extends JPanel{
 		g.setColor(colors[2]);
 		g.fillRect(35 * 10 + 2, 53 * 10 + 2, 9, 9);
 		g.setColor(Color.white);
-		g.drawString("RST", 35 * 10 + 2 + 12, 53 * 10 + 2 + 9);
+		g.drawString("KST", 35 * 10 + 2 + 12, 53 * 10 + 2 + 9);
 		
 		if(victory != 256) {
 			g.setColor(Color.black);
@@ -68,7 +68,7 @@ public class PaintingPanel extends JPanel{
 			if(victory == 1)
 				g.drawString("HCI WON EVEN IF MOD PLAYED BETTER", 5 * 10 + 2 + 12, 25 * 10 + 2 + 9);
 			if(victory == 2)
-				g.drawString("RST WON EVEN IF MOD PLAYED BETTER", 5 * 10 + 2 + 12, 25 * 10 + 2 + 9);
+				g.drawString("KST WON EVEN IF MOD PLAYED BETTER", 5 * 10 + 2 + 12, 25 * 10 + 2 + 9);
 		}
 	}
 	

@@ -19,9 +19,9 @@ public class TronFrame extends JFrame{
  
 	private void build(){
 		setTitle("TronFrame"); //On donne un titre à l'application
-		setSize(424,524+30); //On donne une taille à notre fenêtre
+		setSize(424+4,524+30+15); //On donne une taille à notre fenêtre
 		setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
-		setResizable(false); //On interdit la redimensionnement de la fenêtre
+		//setResizable(false); //On interdit la redimensionnement de la fenêtre
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
 		
 		paintingPanel = new PaintingPanel();
