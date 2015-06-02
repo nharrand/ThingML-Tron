@@ -1,10 +1,10 @@
-package testJavaSwing;
+package JavaMonitor;
 
 
 import javax.swing.SwingUtilities;
 
 public class TronMonitor {
-	public TronFrame fenetre;
+	public static TronFrame fenetre;
 	
 	public static void main(String[] args){
 		
@@ -24,6 +24,7 @@ public class TronMonitor {
 	
 	public void paintSquare(int x, int y, int id) {
 		fenetre.paintSquare(x, y, id);
+		fenetre.repaint();
 	}
 	
 }
