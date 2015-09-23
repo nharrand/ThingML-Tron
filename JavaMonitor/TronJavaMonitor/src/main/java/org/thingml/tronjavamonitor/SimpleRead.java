@@ -17,7 +17,7 @@ public class SimpleRead {
         
         
         
-        serialPort = new SerialPort("/dev/ttyUSB3"); 
+        serialPort = new SerialPort("/dev/ttyUSB0"); 
         try {
             monitor = new TronMonitor();
         	
