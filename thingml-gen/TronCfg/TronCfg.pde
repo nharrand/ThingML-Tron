@@ -57,16 +57,16 @@ uint8_t Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_Idle_bstate__var;
 };
 // Declaration of prototypes outgoing messages:
 void Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_OnEntry(int state, struct Adafruit_1_8pLCDShieldShield_Instance *_instance);
-void Adafruit_1_8pLCDShieldShield_handle_button_button_state(struct Adafruit_1_8pLCDShieldShield_Instance *_instance);
-void Adafruit_1_8pLCDShieldShield_handle_arduino_ready(struct Adafruit_1_8pLCDShieldShield_Instance *_instance);
 void Adafruit_1_8pLCDShieldShield_handle_arduino_100ms_interrupt(struct Adafruit_1_8pLCDShieldShield_Instance *_instance);
-void Adafruit_1_8pLCDShieldShield_handle_lcd_print_dec(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, double num);
+void Adafruit_1_8pLCDShieldShield_handle_arduino_ready(struct Adafruit_1_8pLCDShieldShield_Instance *_instance);
+void Adafruit_1_8pLCDShieldShield_handle_button_button_state(struct Adafruit_1_8pLCDShieldShield_Instance *_instance);
 void Adafruit_1_8pLCDShieldShield_handle_lcd_drawRect(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint16_t x, uint16_t y, uint16_t w, uint16_t l, uint16_t col);
-void Adafruit_1_8pLCDShieldShield_handle_lcd_set_cursor(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint8_t c, uint8_t l);
 void Adafruit_1_8pLCDShieldShield_handle_lcd_fillRect(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint16_t x, uint16_t y, uint16_t w, uint16_t l, uint16_t col);
-void Adafruit_1_8pLCDShieldShield_handle_lcd_print_num(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, int16_t num);
-void Adafruit_1_8pLCDShieldShield_handle_lcd_clear(struct Adafruit_1_8pLCDShieldShield_Instance *_instance);
 void Adafruit_1_8pLCDShieldShield_handle_lcd_print_str(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, char * msg);
+void Adafruit_1_8pLCDShieldShield_handle_lcd_clear(struct Adafruit_1_8pLCDShieldShield_Instance *_instance);
+void Adafruit_1_8pLCDShieldShield_handle_lcd_set_cursor(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint8_t c, uint8_t l);
+void Adafruit_1_8pLCDShieldShield_handle_lcd_print_num(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, int16_t num);
+void Adafruit_1_8pLCDShieldShield_handle_lcd_print_dec(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, double num);
 // Declaration of callbacks for incoming messages:
 void register_Adafruit_1_8pLCDShieldShield_send_button_button_state_response_listener(void (*_listener)(struct Adafruit_1_8pLCDShieldShield_Instance *, uint8_t));
 void register_external_Adafruit_1_8pLCDShieldShield_send_button_button_state_response_listener(void (*_listener)(struct Adafruit_1_8pLCDShieldShield_Instance *, uint8_t));
@@ -93,8 +93,7 @@ void register_external_Adafruit_1_8pLCDShieldShield_send_arduino_timer_cancel_li
 
 // BEGIN: Code from the c_header annotation Tron
 
-#define _SNAKE_TAB_SIZE 273 // not 2184 / 8 
-#include <SoftwareSerial.h> 
+#define _SNAKE_TAB_SIZE 273 // 2184 / 8 
 // END: Code from the c_header annotation Tron
 
 // Definition of the instance stuct:
@@ -143,23 +142,23 @@ uint8_t Tron_timer__var;
 int16_t Tron_speed__var;
 uint8_t Tron_direction__var;
 uint8_t Tron_dirBuff__var;
-uint16_t Tron_color__var[4];
-uint8_t Tron_hasLost__var[4];
-uint8_t Tron_isReady__var[4];
+uint16_t Tron_color__var[8];
+uint8_t Tron_hasLost__var[8];
+uint8_t Tron_isReady__var[8];
 
 };
 // Declaration of prototypes outgoing messages:
 void Tron_TronStateChart_OnEntry(int state, struct Tron_Instance *_instance);
-void Tron_handle_TronPort_tronReady(struct Tron_Instance *_instance, uint8_t id);
-void Tron_handle_TronPort_iHaveID(struct Tron_Instance *_instance, uint8_t id);
-void Tron_handle_TronPort_hasID(struct Tron_Instance *_instance, uint8_t id);
-void Tron_handle_TronPort_mayIHaveID(struct Tron_Instance *_instance, uint8_t id);
-void Tron_handle_TronPort_loose(struct Tron_Instance *_instance, uint8_t id);
-void Tron_handle_TronPort_tronGo(struct Tron_Instance *_instance, uint8_t nbID);
-void Tron_handle_TronPort_addHead(struct Tron_Instance *_instance, uint8_t x, uint8_t y, uint8_t id);
 void Tron_handle_lcd_LCDready(struct Tron_Instance *_instance);
 void Tron_handle_arduino_100ms_interrupt(struct Tron_Instance *_instance);
 void Tron_handle_arduino_timeout(struct Tron_Instance *_instance, uint8_t id);
+void Tron_handle_TronPort_loose(struct Tron_Instance *_instance, uint8_t id);
+void Tron_handle_TronPort_iHaveID(struct Tron_Instance *_instance, uint8_t id);
+void Tron_handle_TronPort_tronReady(struct Tron_Instance *_instance, uint8_t id);
+void Tron_handle_TronPort_tronGo(struct Tron_Instance *_instance, uint8_t nbID);
+void Tron_handle_TronPort_addHead(struct Tron_Instance *_instance, uint8_t x, uint8_t y, uint8_t id);
+void Tron_handle_TronPort_mayIHaveID(struct Tron_Instance *_instance, uint8_t id);
+void Tron_handle_TronPort_hasID(struct Tron_Instance *_instance, uint8_t id);
 void Tron_handle_button_button_state_change(struct Tron_Instance *_instance, uint8_t bstate);
 // Declaration of callbacks for incoming messages:
 void register_Tron_send_TronPort_addHead_listener(void (*_listener)(struct Tron_Instance *, uint8_t, uint8_t, uint8_t));
@@ -247,8 +246,8 @@ long ArduinoScheduler_ArduinoSchedulerStateChart_prev_1sec__var;
 void ArduinoScheduler_ArduinoSchedulerStateChart_OnEntry(int state, struct ArduinoScheduler_Instance *_instance);
 void ArduinoScheduler_handle_polling_poll(struct ArduinoScheduler_Instance *_instance);
 void ArduinoScheduler_handle_polling_setup(struct ArduinoScheduler_Instance *_instance);
-void ArduinoScheduler_handle_arduino_timer_cancel(struct ArduinoScheduler_Instance *_instance, uint8_t id);
 void ArduinoScheduler_handle_arduino_timer_start(struct ArduinoScheduler_Instance *_instance, uint8_t id, int16_t time);
+void ArduinoScheduler_handle_arduino_timer_cancel(struct ArduinoScheduler_Instance *_instance, uint8_t id);
 // Declaration of callbacks for incoming messages:
 void register_ArduinoScheduler_send_arduino_ready_listener(void (*_listener)(struct ArduinoScheduler_Instance *));
 void register_external_ArduinoScheduler_send_arduino_ready_listener(void (*_listener)(struct ArduinoScheduler_Instance *));
@@ -393,17 +392,12 @@ void Tron_send_TronPort_tronGo(struct Tron_Instance *_instance, uint8_t nbID);
 void Tron_send_TronPort_hasID(struct Tron_Instance *_instance, uint8_t id);
 void Tron_send_TronPort_iHaveID(struct Tron_Instance *_instance, uint8_t id);
 void Tron_send_TronPort_mayIHaveID(struct Tron_Instance *_instance, uint8_t id);
-void f_Tron_displayTab(struct Tron_Instance *_instance);
 uint8_t f_Tron_hasWon(struct Tron_Instance *_instance);
 void f_Tron_addHeadDir(struct Tron_Instance *_instance, uint8_t x, uint8_t y, uint8_t dir);
 uint8_t f_Tron_outOfBound(struct Tron_Instance *_instance, uint8_t x, uint8_t y);
 uint8_t f_Tron_isInSnake(struct Tron_Instance *_instance, uint8_t x, uint8_t y);
 uint8_t f_Tron_shallWe(struct Tron_Instance *_instance);
 // Declaration of functions:
-// Definition of function displayTab
-void f_Tron_displayTab(struct Tron_Instance *_instance) {
-
-}
 // Definition of function hasWon
 uint8_t f_Tron_hasWon(struct Tron_Instance *_instance) {
 
@@ -541,14 +535,26 @@ _instance->Tron_color__var[0] = 0x001F;
 _instance->Tron_color__var[1] = 0xF800;
 _instance->Tron_color__var[2] = 0x3FE0;
 _instance->Tron_color__var[3] = 0x0FFF;
+_instance->Tron_color__var[4] = 0xFF80;
+_instance->Tron_color__var[5] = 0x8008;
+_instance->Tron_color__var[6] = 0xFFFF;
+_instance->Tron_color__var[7] = 0xF00F;
 _instance->Tron_hasLost__var[0] = 0;
 _instance->Tron_hasLost__var[1] = 0;
 _instance->Tron_hasLost__var[2] = 0;
 _instance->Tron_hasLost__var[3] = 0;
+_instance->Tron_hasLost__var[4] = 0;
+_instance->Tron_hasLost__var[5] = 0;
+_instance->Tron_hasLost__var[6] = 0;
+_instance->Tron_hasLost__var[7] = 0;
 _instance->Tron_isReady__var[0] = 0;
 _instance->Tron_isReady__var[1] = 0;
 _instance->Tron_isReady__var[2] = 0;
 _instance->Tron_isReady__var[3] = 0;
+_instance->Tron_isReady__var[4] = 0;
+_instance->Tron_isReady__var[5] = 0;
+_instance->Tron_isReady__var[6] = 0;
+_instance->Tron_isReady__var[7] = 0;
 break;
 case TRON_TRONSTATECHART_DISCOVERY_STATE:
 Tron_send_lcd_clear(_instance);
@@ -605,6 +611,34 @@ _instance->Tron_tailX__var = 30;
 _instance->Tron_tailY__var = 10;
 
 }
+if(_instance->Tron_myID__var == 4) {
+_instance->Tron_headX__var = 10;
+_instance->Tron_headY__var = 20;
+_instance->Tron_tailX__var = 10;
+_instance->Tron_tailY__var = 20;
+
+}
+if(_instance->Tron_myID__var == 5) {
+_instance->Tron_headX__var = 30;
+_instance->Tron_headY__var = 20;
+_instance->Tron_tailX__var = 30;
+_instance->Tron_tailY__var = 20;
+
+}
+if(_instance->Tron_myID__var == 6) {
+_instance->Tron_headX__var = 10;
+_instance->Tron_headY__var = 30;
+_instance->Tron_tailX__var = 10;
+_instance->Tron_tailY__var = 30;
+
+}
+if(_instance->Tron_myID__var == 7) {
+_instance->Tron_headX__var = 30;
+_instance->Tron_headY__var = 30;
+_instance->Tron_tailX__var = 30;
+_instance->Tron_tailY__var = 30;
+
+}
 break;
 case TRON_TRONSTATECHART_READY_STATE:
 Tron_send_lcd_clear(_instance);
@@ -631,7 +665,6 @@ Tron_send_lcd_set_cursor(_instance, 45, 78);
 Tron_send_lcd_print_str(_instance, "Defeat!");
 break;
 case TRON_TRONSTATECHART_VICTORY_STATE:
-f_Tron_displayTab(_instance);
 Tron_send_lcd_clear(_instance);
 Tron_send_lcd_drawRect(_instance, 1, 1, 127, 157, _instance->Tron_color__var[_instance->Tron_myID__var]
 );
@@ -674,147 +707,6 @@ default: break;
 }
 
 // Event Handlers for incoming messages:
-void Tron_handle_TronPort_tronReady(struct Tron_Instance *_instance, uint8_t id) {
-uint8_t Tron_TronStateChart_State_event_consumed = 0;
-if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_RENDEZVOUS_STATE) {
-if (Tron_TronStateChart_State_event_consumed == 0 && 1) {
-_instance->Tron_isReady__var[id] = 1;
-Tron_TronStateChart_State_event_consumed = 1;
-}
-}
-else if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_READY_STATE) {
-if (Tron_TronStateChart_State_event_consumed == 0 && 1) {
-_instance->Tron_isReady__var[id] = 1;
-Tron_TronStateChart_State_event_consumed = 1;
-}
-}
-}
-void Tron_handle_TronPort_iHaveID(struct Tron_Instance *_instance, uint8_t id) {
-uint8_t Tron_TronStateChart_State_event_consumed = 0;
-if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_DISCOVERY_STATE) {
-if (Tron_TronStateChart_State_event_consumed == 0 && (id == _instance->Tron_curID__var)) {
-Tron_send_arduino_timer_cancel(_instance, 0);
-Tron_send_arduino_timer_start(_instance, 0, 300);
-Tron_send_lcd_drawRect(_instance, 2+3*_instance->Tron_curID__var, 2, 2, 2, _instance->Tron_color__var[_instance->Tron_curID__var]
-);
-_instance->Tron_curID__var = _instance->Tron_curID__var + 1;
-Tron_TronStateChart_State_event_consumed = 1;
-}
-}
-else if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_IDOPTION_STATE) {
-if (Tron_TronStateChart_State_event_consumed == 0 && (id == _instance->Tron_curID__var)) {
-Tron_TronStateChart_OnExit(TRON_TRONSTATECHART_IDOPTION_STATE, _instance);
-_instance->Tron_TronStateChart_State = TRON_TRONSTATECHART_DISCOVERY_STATE;
-Tron_send_arduino_timer_cancel(_instance, 0);
-Tron_TronStateChart_OnEntry(TRON_TRONSTATECHART_DISCOVERY_STATE, _instance);
-Tron_TronStateChart_State_event_consumed = 1;
-}
-}
-}
-void Tron_handle_TronPort_hasID(struct Tron_Instance *_instance, uint8_t id) {
-uint8_t Tron_TronStateChart_State_event_consumed = 0;
-if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_RENDEZVOUS_STATE) {
-if (Tron_TronStateChart_State_event_consumed == 0 && (id == _instance->Tron_myID__var)) {
-Tron_send_TronPort_iHaveID(_instance, _instance->Tron_myID__var);
-Tron_TronStateChart_State_event_consumed = 1;
-}
-}
-else if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_READY_STATE) {
-if (Tron_TronStateChart_State_event_consumed == 0 && (id == _instance->Tron_myID__var)) {
-Tron_send_TronPort_iHaveID(_instance, _instance->Tron_myID__var);
-Tron_TronStateChart_State_event_consumed = 1;
-}
-}
-}
-void Tron_handle_TronPort_mayIHaveID(struct Tron_Instance *_instance, uint8_t id) {
-uint8_t Tron_TronStateChart_State_event_consumed = 0;
-if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_IDOPTION_STATE) {
-if (Tron_TronStateChart_State_event_consumed == 0 && (id == _instance->Tron_curID__var)) {
-Tron_TronStateChart_OnExit(TRON_TRONSTATECHART_IDOPTION_STATE, _instance);
-_instance->Tron_TronStateChart_State = TRON_TRONSTATECHART_RANDOMWAIT_STATE;
-Tron_send_arduino_timer_cancel(_instance, 0);
-Tron_TronStateChart_OnEntry(TRON_TRONSTATECHART_RANDOMWAIT_STATE, _instance);
-Tron_TronStateChart_State_event_consumed = 1;
-}
-}
-else if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_RENDEZVOUS_STATE) {
-if (Tron_TronStateChart_State_event_consumed == 0 && 1) {
-if(id == _instance->Tron_myID__var) {
-Tron_send_TronPort_iHaveID(_instance, _instance->Tron_myID__var);
-
-}
-if(id > (_instance->Tron_nbID__var - 1)) {
-_instance->Tron_nbID__var = id + 1;
-
-}
-Tron_TronStateChart_State_event_consumed = 1;
-}
-}
-else if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_READY_STATE) {
-if (Tron_TronStateChart_State_event_consumed == 0 && 1) {
-if(id == _instance->Tron_myID__var) {
-Tron_send_TronPort_iHaveID(_instance, _instance->Tron_myID__var);
-
-}
-if(id > (_instance->Tron_nbID__var - 1)) {
-_instance->Tron_nbID__var = id + 1;
-
-}
-Tron_TronStateChart_State_event_consumed = 1;
-}
-}
-}
-void Tron_handle_TronPort_loose(struct Tron_Instance *_instance, uint8_t id) {
-uint8_t Tron_TronStateChart_State_event_consumed = 0;
-if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_GAME_STATE) {
-if (Tron_TronStateChart_State_event_consumed == 0 && (id == _instance->Tron_myID__var)) {
-_instance->Tron_lost__var = 1;
-Tron_TronStateChart_State_event_consumed = 1;
-}
-else if (Tron_TronStateChart_State_event_consumed == 0 &&  !((id == _instance->Tron_myID__var))) {
-_instance->Tron_hasLost__var[id] = 1;
-_instance->Tron_won__var = f_Tron_hasWon(_instance);
-Tron_TronStateChart_State_event_consumed = 1;
-}
-}
-}
-void Tron_handle_TronPort_tronGo(struct Tron_Instance *_instance, uint8_t nbID) {
-uint8_t Tron_TronStateChart_State_event_consumed = 0;
-if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_READY_STATE) {
-if (Tron_TronStateChart_State_event_consumed == 0 && 1) {
-Tron_TronStateChart_OnExit(TRON_TRONSTATECHART_READY_STATE, _instance);
-_instance->Tron_TronStateChart_State = TRON_TRONSTATECHART_GAME_STATE;
-_instance->Tron_nbID__var = nbID;
-Tron_TronStateChart_OnEntry(TRON_TRONSTATECHART_GAME_STATE, _instance);
-Tron_TronStateChart_State_event_consumed = 1;
-}
-}
-}
-void Tron_handle_TronPort_addHead(struct Tron_Instance *_instance, uint8_t x, uint8_t y, uint8_t id) {
-uint8_t Tron_TronStateChart_State_event_consumed = 0;
-if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_GAME_STATE) {
-if (Tron_TronStateChart_State_event_consumed == 0 && 1) {
-Tron_send_lcd_drawRect(_instance, 2+3*x, 2+3*y, 2, 2, _instance->Tron_color__var[id]
-);
-if(f_Tron_isInSnake(_instance, x, y)) {
-Tron_send_TronPort_loose(_instance, id);
-_instance->Tron_hasLost__var[id] = 1;
-_instance->Tron_won__var = f_Tron_hasWon(_instance);
-
-}
-Tron_TronStateChart_State_event_consumed = 1;
-}
-}
-else if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_DEFEAT_STATE) {
-if (Tron_TronStateChart_State_event_consumed == 0 && 1) {
-if(f_Tron_isInSnake(_instance, x, y)) {
-Tron_send_TronPort_loose(_instance, id);
-
-}
-Tron_TronStateChart_State_event_consumed = 1;
-}
-}
-}
 void Tron_handle_lcd_LCDready(struct Tron_Instance *_instance) {
 uint8_t Tron_TronStateChart_State_event_consumed = 0;
 if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_INIT_STATE) {
@@ -928,6 +820,155 @@ _instance->Tron_lost__var = 1;
 Tron_send_TronPort_loose(_instance, _instance->Tron_myID__var);
 
 }
+Tron_TronStateChart_State_event_consumed = 1;
+}
+}
+}
+void Tron_handle_TronPort_loose(struct Tron_Instance *_instance, uint8_t id) {
+uint8_t Tron_TronStateChart_State_event_consumed = 0;
+if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_GAME_STATE) {
+if (Tron_TronStateChart_State_event_consumed == 0 && (id == _instance->Tron_myID__var)) {
+_instance->Tron_lost__var = 1;
+Tron_TronStateChart_State_event_consumed = 1;
+}
+else if (Tron_TronStateChart_State_event_consumed == 0 &&  !((id == _instance->Tron_myID__var))) {
+_instance->Tron_hasLost__var[id] = 1;
+_instance->Tron_won__var = f_Tron_hasWon(_instance);
+Tron_TronStateChart_State_event_consumed = 1;
+}
+}
+}
+void Tron_handle_TronPort_iHaveID(struct Tron_Instance *_instance, uint8_t id) {
+uint8_t Tron_TronStateChart_State_event_consumed = 0;
+if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_DISCOVERY_STATE) {
+if (Tron_TronStateChart_State_event_consumed == 0 && (id == _instance->Tron_curID__var)) {
+Tron_send_arduino_timer_cancel(_instance, 0);
+Tron_send_arduino_timer_start(_instance, 0, 300);
+Tron_send_lcd_drawRect(_instance, 2+3*_instance->Tron_curID__var, 2, 2, 2, _instance->Tron_color__var[_instance->Tron_curID__var]
+);
+_instance->Tron_curID__var = _instance->Tron_curID__var + 1;
+Tron_TronStateChart_State_event_consumed = 1;
+}
+}
+else if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_IDOPTION_STATE) {
+if (Tron_TronStateChart_State_event_consumed == 0 && (id == _instance->Tron_curID__var)) {
+Tron_TronStateChart_OnExit(TRON_TRONSTATECHART_IDOPTION_STATE, _instance);
+_instance->Tron_TronStateChart_State = TRON_TRONSTATECHART_DISCOVERY_STATE;
+Tron_send_arduino_timer_cancel(_instance, 0);
+Tron_TronStateChart_OnEntry(TRON_TRONSTATECHART_DISCOVERY_STATE, _instance);
+Tron_TronStateChart_State_event_consumed = 1;
+}
+}
+}
+void Tron_handle_TronPort_tronReady(struct Tron_Instance *_instance, uint8_t id) {
+uint8_t Tron_TronStateChart_State_event_consumed = 0;
+if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_RENDEZVOUS_STATE) {
+if (Tron_TronStateChart_State_event_consumed == 0 && 1) {
+_instance->Tron_isReady__var[id] = 1;
+if( !((_instance->Tron_nbID__var > id))) {
+_instance->Tron_nbID__var = id + 1;
+
+}
+Tron_TronStateChart_State_event_consumed = 1;
+}
+}
+else if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_READY_STATE) {
+if (Tron_TronStateChart_State_event_consumed == 0 && 1) {
+_instance->Tron_isReady__var[id] = 1;
+if( !((_instance->Tron_nbID__var > id))) {
+_instance->Tron_nbID__var = id + 1;
+
+}
+Tron_TronStateChart_State_event_consumed = 1;
+}
+}
+}
+void Tron_handle_TronPort_tronGo(struct Tron_Instance *_instance, uint8_t nbID) {
+uint8_t Tron_TronStateChart_State_event_consumed = 0;
+if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_READY_STATE) {
+if (Tron_TronStateChart_State_event_consumed == 0 && 1) {
+Tron_TronStateChart_OnExit(TRON_TRONSTATECHART_READY_STATE, _instance);
+_instance->Tron_TronStateChart_State = TRON_TRONSTATECHART_GAME_STATE;
+_instance->Tron_nbID__var = nbID;
+Tron_TronStateChart_OnEntry(TRON_TRONSTATECHART_GAME_STATE, _instance);
+Tron_TronStateChart_State_event_consumed = 1;
+}
+}
+}
+void Tron_handle_TronPort_addHead(struct Tron_Instance *_instance, uint8_t x, uint8_t y, uint8_t id) {
+uint8_t Tron_TronStateChart_State_event_consumed = 0;
+if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_GAME_STATE) {
+if (Tron_TronStateChart_State_event_consumed == 0 && 1) {
+Tron_send_lcd_drawRect(_instance, 2+3*x, 2+3*y, 2, 2, _instance->Tron_color__var[id]
+);
+if(f_Tron_isInSnake(_instance, x, y)) {
+Tron_send_TronPort_loose(_instance, id);
+_instance->Tron_hasLost__var[id] = 1;
+_instance->Tron_won__var = f_Tron_hasWon(_instance);
+
+}
+Tron_TronStateChart_State_event_consumed = 1;
+}
+}
+else if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_DEFEAT_STATE) {
+if (Tron_TronStateChart_State_event_consumed == 0 && 1) {
+if(f_Tron_isInSnake(_instance, x, y)) {
+Tron_send_TronPort_loose(_instance, id);
+
+}
+Tron_TronStateChart_State_event_consumed = 1;
+}
+}
+}
+void Tron_handle_TronPort_mayIHaveID(struct Tron_Instance *_instance, uint8_t id) {
+uint8_t Tron_TronStateChart_State_event_consumed = 0;
+if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_IDOPTION_STATE) {
+if (Tron_TronStateChart_State_event_consumed == 0 && (id == _instance->Tron_curID__var)) {
+Tron_TronStateChart_OnExit(TRON_TRONSTATECHART_IDOPTION_STATE, _instance);
+_instance->Tron_TronStateChart_State = TRON_TRONSTATECHART_RANDOMWAIT_STATE;
+Tron_send_arduino_timer_cancel(_instance, 0);
+Tron_TronStateChart_OnEntry(TRON_TRONSTATECHART_RANDOMWAIT_STATE, _instance);
+Tron_TronStateChart_State_event_consumed = 1;
+}
+}
+else if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_RENDEZVOUS_STATE) {
+if (Tron_TronStateChart_State_event_consumed == 0 && 1) {
+if(id == _instance->Tron_myID__var) {
+Tron_send_TronPort_iHaveID(_instance, _instance->Tron_myID__var);
+
+}
+if(id > (_instance->Tron_nbID__var - 1)) {
+_instance->Tron_nbID__var = id + 1;
+
+}
+Tron_TronStateChart_State_event_consumed = 1;
+}
+}
+else if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_READY_STATE) {
+if (Tron_TronStateChart_State_event_consumed == 0 && 1) {
+if(id == _instance->Tron_myID__var) {
+Tron_send_TronPort_iHaveID(_instance, _instance->Tron_myID__var);
+
+}
+if(id > (_instance->Tron_nbID__var - 1)) {
+_instance->Tron_nbID__var = id + 1;
+
+}
+Tron_TronStateChart_State_event_consumed = 1;
+}
+}
+}
+void Tron_handle_TronPort_hasID(struct Tron_Instance *_instance, uint8_t id) {
+uint8_t Tron_TronStateChart_State_event_consumed = 0;
+if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_RENDEZVOUS_STATE) {
+if (Tron_TronStateChart_State_event_consumed == 0 && (id == _instance->Tron_myID__var)) {
+Tron_send_TronPort_iHaveID(_instance, _instance->Tron_myID__var);
+Tron_TronStateChart_State_event_consumed = 1;
+}
+}
+else if (_instance->Tron_TronStateChart_State == TRON_TRONSTATECHART_READY_STATE) {
+if (Tron_TronStateChart_State_event_consumed == 0 && (id == _instance->Tron_myID__var)) {
+Tron_send_TronPort_iHaveID(_instance, _instance->Tron_myID__var);
 Tron_TronStateChart_State_event_consumed = 1;
 }
 }
@@ -1368,26 +1409,6 @@ default: break;
 }
 
 // Event Handlers for incoming messages:
-void Adafruit_1_8pLCDShieldShield_handle_button_button_state(struct Adafruit_1_8pLCDShieldShield_Instance *_instance) {
-uint8_t Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 0;
-if (_instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State == ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_IDLE_STATE) {
-if (Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed == 0 && 1) {
-Adafruit_1_8pLCDShieldShield_send_button_button_state_response(_instance, _instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_Idle_bstate__var);
-Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 1;
-}
-}
-}
-void Adafruit_1_8pLCDShieldShield_handle_arduino_ready(struct Adafruit_1_8pLCDShieldShield_Instance *_instance) {
-uint8_t Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 0;
-if (_instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State == ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_EMPTY_STATE) {
-if (Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed == 0 && 1) {
-Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_OnExit(ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_EMPTY_STATE, _instance);
-_instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State = ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_SETUP_STATE;
-Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_OnEntry(ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_SETUP_STATE, _instance);
-Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 1;
-}
-}
-}
 void Adafruit_1_8pLCDShieldShield_handle_arduino_100ms_interrupt(struct Adafruit_1_8pLCDShieldShield_Instance *_instance) {
 uint8_t Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 0;
 if (_instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State == ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_IDLE_STATE) {
@@ -1409,11 +1430,22 @@ Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 1;
 }
 }
 }
-void Adafruit_1_8pLCDShieldShield_handle_lcd_print_dec(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, double num) {
+void Adafruit_1_8pLCDShieldShield_handle_arduino_ready(struct Adafruit_1_8pLCDShieldShield_Instance *_instance) {
+uint8_t Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 0;
+if (_instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State == ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_EMPTY_STATE) {
+if (Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed == 0 && 1) {
+Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_OnExit(ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_EMPTY_STATE, _instance);
+_instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State = ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_SETUP_STATE;
+Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_OnEntry(ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_SETUP_STATE, _instance);
+Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 1;
+}
+}
+}
+void Adafruit_1_8pLCDShieldShield_handle_button_button_state(struct Adafruit_1_8pLCDShieldShield_Instance *_instance) {
 uint8_t Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 0;
 if (_instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State == ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_IDLE_STATE) {
 if (Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed == 0 && 1) {
-tft.print(num);
+Adafruit_1_8pLCDShieldShield_send_button_button_state_response(_instance, _instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_Idle_bstate__var);
 Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 1;
 }
 }
@@ -1427,38 +1459,11 @@ Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 1;
 }
 }
 }
-void Adafruit_1_8pLCDShieldShield_handle_lcd_set_cursor(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint8_t c, uint8_t l) {
-uint8_t Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 0;
-if (_instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State == ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_IDLE_STATE) {
-if (Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed == 0 && 1) {
-tft.setCursor(c, l);
-Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 1;
-}
-}
-}
 void Adafruit_1_8pLCDShieldShield_handle_lcd_fillRect(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint16_t x, uint16_t y, uint16_t w, uint16_t l, uint16_t col) {
 uint8_t Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 0;
 if (_instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State == ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_IDLE_STATE) {
 if (Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed == 0 && 1) {
 tft.fillRect(x,y,w,l,col);
-Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 1;
-}
-}
-}
-void Adafruit_1_8pLCDShieldShield_handle_lcd_print_num(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, int16_t num) {
-uint8_t Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 0;
-if (_instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State == ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_IDLE_STATE) {
-if (Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed == 0 && 1) {
-tft.print(num);
-Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 1;
-}
-}
-}
-void Adafruit_1_8pLCDShieldShield_handle_lcd_clear(struct Adafruit_1_8pLCDShieldShield_Instance *_instance) {
-uint8_t Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 0;
-if (_instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State == ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_IDLE_STATE) {
-if (Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed == 0 && 1) {
-tft.fillScreen(0x0000);
 Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 1;
 }
 }
@@ -1472,15 +1477,53 @@ Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 1;
 }
 }
 }
-void Adafruit_1_8pLCDShieldShield_handle_empty_event(struct Adafruit_1_8pLCDShieldShield_Instance *_instance) {
+void Adafruit_1_8pLCDShieldShield_handle_lcd_clear(struct Adafruit_1_8pLCDShieldShield_Instance *_instance) {
+uint8_t Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 0;
+if (_instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State == ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_IDLE_STATE) {
+if (Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed == 0 && 1) {
+tft.fillScreen(0x0000);
+Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 1;
+}
+}
+}
+void Adafruit_1_8pLCDShieldShield_handle_lcd_set_cursor(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint8_t c, uint8_t l) {
+uint8_t Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 0;
+if (_instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State == ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_IDLE_STATE) {
+if (Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed == 0 && 1) {
+tft.setCursor(c, l);
+Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 1;
+}
+}
+}
+void Adafruit_1_8pLCDShieldShield_handle_lcd_print_num(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, int16_t num) {
+uint8_t Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 0;
+if (_instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State == ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_IDLE_STATE) {
+if (Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed == 0 && 1) {
+tft.print(num);
+Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 1;
+}
+}
+}
+void Adafruit_1_8pLCDShieldShield_handle_lcd_print_dec(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, double num) {
+uint8_t Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 0;
+if (_instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State == ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_IDLE_STATE) {
+if (Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed == 0 && 1) {
+tft.print(num);
+Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State_event_consumed = 1;
+}
+}
+}
+int Adafruit_1_8pLCDShieldShield_handle_empty_event(struct Adafruit_1_8pLCDShieldShield_Instance *_instance) {
 if (_instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State == ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_SETUP_STATE) {
 if (1) {
 Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_OnExit(ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_SETUP_STATE, _instance);
 _instance->Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State = ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_IDLE_STATE;
 Adafruit_1_8pLCDShieldShield_send_lcd_LCDready(_instance);
 Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_OnEntry(ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_IDLE_STATE, _instance);
+return 1;
 }
 }
+return 0;
 }
 
 // Observers for outgoing messages:
@@ -1661,21 +1704,21 @@ ArduinoScheduler_send_arduino_ready(_instance);
 ArduinoScheduler_ArduinoSchedulerStateChart_State_event_consumed = 1;
 }
 }
-void ArduinoScheduler_handle_arduino_timer_cancel(struct ArduinoScheduler_Instance *_instance, uint8_t id) {
-uint8_t ArduinoScheduler_ArduinoSchedulerStateChart_State_event_consumed = 0;
-if (1) {
-if(id < NB_SOFT_TIMERS) {
-_instance->ArduinoScheduler_ArduinoSchedulerStateChart_timers__var[id] = 0;
-
-}
-ArduinoScheduler_ArduinoSchedulerStateChart_State_event_consumed = 1;
-}
-}
 void ArduinoScheduler_handle_arduino_timer_start(struct ArduinoScheduler_Instance *_instance, uint8_t id, int16_t time) {
 uint8_t ArduinoScheduler_ArduinoSchedulerStateChart_State_event_consumed = 0;
 if (1) {
 if(id < NB_SOFT_TIMERS) {
 _instance->ArduinoScheduler_ArduinoSchedulerStateChart_timers__var[id] = millis() + time - 1;
+
+}
+ArduinoScheduler_ArduinoSchedulerStateChart_State_event_consumed = 1;
+}
+}
+void ArduinoScheduler_handle_arduino_timer_cancel(struct ArduinoScheduler_Instance *_instance, uint8_t id) {
+uint8_t ArduinoScheduler_ArduinoSchedulerStateChart_State_event_consumed = 0;
+if (1) {
+if(id < NB_SOFT_TIMERS) {
+_instance->ArduinoScheduler_ArduinoSchedulerStateChart_timers__var[id] = 0;
 
 }
 ArduinoScheduler_ArduinoSchedulerStateChart_State_event_consumed = 1;
@@ -1773,20 +1816,6 @@ struct Msg_Handler TronCfg_arduinoScheduler_polling_handlers;
 uint16_t TronCfg_arduinoScheduler_polling_msgs[2];
 void * TronCfg_arduinoScheduler_polling_handlers_tab[2];
 
-//Instance TronCfg_myLCD
-struct Adafruit_1_8pLCDShieldShield_Instance TronCfg_myLCD_var;
-struct Msg_Handler TronCfg_myLCD_button_handlers;
-uint16_t TronCfg_myLCD_button_msgs[1];
-void * TronCfg_myLCD_button_handlers_tab[1];
-
-struct Msg_Handler TronCfg_myLCD_lcd_handlers;
-uint16_t TronCfg_myLCD_lcd_msgs[8];
-void * TronCfg_myLCD_lcd_handlers_tab[8];
-
-struct Msg_Handler TronCfg_myLCD_arduino_handlers;
-uint16_t TronCfg_myLCD_arduino_msgs[5];
-void * TronCfg_myLCD_arduino_handlers_tab[5];
-
 //Instance TronCfg_tron
 struct Tron_Instance TronCfg_tron_var;
 struct Msg_Handler TronCfg_tron_TronPort_handlers;
@@ -1805,9 +1834,23 @@ struct Msg_Handler TronCfg_tron_arduino_handlers;
 uint16_t TronCfg_tron_arduino_msgs[5];
 void * TronCfg_tron_arduino_handlers_tab[5];
 
+//Instance TronCfg_myLCD
+struct Adafruit_1_8pLCDShieldShield_Instance TronCfg_myLCD_var;
+struct Msg_Handler TronCfg_myLCD_button_handlers;
+uint16_t TronCfg_myLCD_button_msgs[1];
+void * TronCfg_myLCD_button_handlers_tab[1];
 
-// Enqueue of messages Adafruit_1_8pLCDShieldShield::button::button_state_change
-void enqueue_Adafruit_1_8pLCDShieldShield_send_button_button_state_change(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint8_t bstate){
+struct Msg_Handler TronCfg_myLCD_lcd_handlers;
+uint16_t TronCfg_myLCD_lcd_msgs[8];
+void * TronCfg_myLCD_lcd_handlers_tab[8];
+
+struct Msg_Handler TronCfg_myLCD_arduino_handlers;
+uint16_t TronCfg_myLCD_arduino_msgs[5];
+void * TronCfg_myLCD_arduino_handlers_tab[5];
+
+
+// Enqueue of messages Adafruit_1_8pLCDShieldShield::button::button_state_response
+void enqueue_Adafruit_1_8pLCDShieldShield_send_button_button_state_response(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint8_t bstate){
 if ( fifo_byte_available() > 5 ) {
 
 _fifo_enqueue( (1 >> 8) & 0xFF );
@@ -1826,8 +1869,8 @@ u_bstate.p = bstate;
 _fifo_enqueue( u_bstate.bytebuffer[0] & 0xFF );
 }
 }
-// Enqueue of messages Adafruit_1_8pLCDShieldShield::button::button_state_response
-void enqueue_Adafruit_1_8pLCDShieldShield_send_button_button_state_response(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint8_t bstate){
+// Enqueue of messages Adafruit_1_8pLCDShieldShield::button::button_state_change
+void enqueue_Adafruit_1_8pLCDShieldShield_send_button_button_state_change(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint8_t bstate){
 if ( fifo_byte_available() > 5 ) {
 
 _fifo_enqueue( (2 >> 8) & 0xFF );
@@ -1860,70 +1903,10 @@ _fifo_enqueue( _instance->id_button & 0xFF );
 }
 
 
-//Dynamic dispatcher for message tronReady
-void dispatch_tronReady(uint16_t sender, uint8_t param_id) {
+//Dynamic dispatcher for message clear
+void dispatch_clear(uint16_t sender) {
 struct executor {
-static void executor_dispatch_tronReady(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_id) {
-struct Msg_Handler ** cur = head;
-while (cur != NULL) {
-   void (*handler)(void *, uint8_t param_id) = NULL;
-   int i;
-   for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 53) {
-           handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
-           break;
-       }
-   }
-   if(handler != NULL) {
-       handler((**cur).instance, param_id);
-}
-   if(cur == tail){
-       cur = NULL;}
-   else {
-   cur++;}
-}
-}
-};
-if (sender == TronCfg_tron_var.id_TronPort) {
-executor::executor_dispatch_tronReady(TronCfg_tron_var.TronPort_receiver_list_head, TronCfg_tron_var.TronPort_receiver_list_tail, param_id);}
-if (sender == Serial_instance.listener_id) {
-executor::executor_dispatch_tronReady(Serial_instance.TronPort_receiver_list_head,Serial_instance.TronPort_receiver_list_tail, param_id);}
-}
-
-//Dynamic dispatcher for message iHaveID
-void dispatch_iHaveID(uint16_t sender, uint8_t param_id) {
-struct executor {
-static void executor_dispatch_iHaveID(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_id) {
-struct Msg_Handler ** cur = head;
-while (cur != NULL) {
-   void (*handler)(void *, uint8_t param_id) = NULL;
-   int i;
-   for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 51) {
-           handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
-           break;
-       }
-   }
-   if(handler != NULL) {
-       handler((**cur).instance, param_id);
-}
-   if(cur == tail){
-       cur = NULL;}
-   else {
-   cur++;}
-}
-}
-};
-if (sender == TronCfg_tron_var.id_TronPort) {
-executor::executor_dispatch_iHaveID(TronCfg_tron_var.TronPort_receiver_list_head, TronCfg_tron_var.TronPort_receiver_list_tail, param_id);}
-if (sender == Serial_instance.listener_id) {
-executor::executor_dispatch_iHaveID(Serial_instance.TronPort_receiver_list_head,Serial_instance.TronPort_receiver_list_tail, param_id);}
-}
-
-//Dynamic dispatcher for message ready
-void dispatch_ready(uint16_t sender) {
-struct executor {
-static void executor_dispatch_ready(struct Msg_Handler ** head, struct Msg_Handler ** tail) {
+static void executor_dispatch_clear(struct Msg_Handler ** head, struct Msg_Handler ** tail) {
 struct Msg_Handler ** cur = head;
 while (cur != NULL) {
    void (*handler)(void *) = NULL;
@@ -1944,368 +1927,26 @@ while (cur != NULL) {
 }
 }
 };
-if (sender == TronCfg_arduinoScheduler_var.id_arduino) {
-executor::executor_dispatch_ready(TronCfg_arduinoScheduler_var.arduino_receiver_list_head, TronCfg_arduinoScheduler_var.arduino_receiver_list_tail);}
-}
-
-//Dynamic dispatcher for message 1s_poll
-void dispatch_1s_poll(uint16_t sender) {
-struct executor {
-static void executor_dispatch_1s_poll(struct Msg_Handler ** head, struct Msg_Handler ** tail) {
-struct Msg_Handler ** cur = head;
-while (cur != NULL) {
-   void (*handler)(void *) = NULL;
-   int i;
-   for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 5) {
-           handler = (void (*) (void *)) (**cur).msg_handler[i];
-           break;
-       }
-   }
-   if(handler != NULL) {
-       handler((**cur).instance);
-}
-   if(cur == tail){
-       cur = NULL;}
-   else {
-   cur++;}
-}
-}
-};
-if (sender == TronCfg_arduinoScheduler_var.id_arduino) {
-executor::executor_dispatch_1s_poll(TronCfg_arduinoScheduler_var.arduino_receiver_list_head, TronCfg_arduinoScheduler_var.arduino_receiver_list_tail);}
-}
-
-//Dynamic dispatcher for message set_cursor
-void dispatch_set_cursor(uint16_t sender, uint8_t param_c, uint8_t param_l) {
-struct executor {
-static void executor_dispatch_set_cursor(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_c, uint8_t param_l) {
-struct Msg_Handler ** cur = head;
-while (cur != NULL) {
-   void (*handler)(void *, uint8_t param_c, uint8_t param_l) = NULL;
-   int i;
-   for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 6) {
-           handler = (void (*) (void *, uint8_t, uint8_t)) (**cur).msg_handler[i];
-           break;
-       }
-   }
-   if(handler != NULL) {
-       handler((**cur).instance, param_c, param_l);
-}
-   if(cur == tail){
-       cur = NULL;}
-   else {
-   cur++;}
-}
-}
-};
-if (sender == TronCfg_tron_var.id_lcd) {
-executor::executor_dispatch_set_cursor(TronCfg_tron_var.lcd_receiver_list_head, TronCfg_tron_var.lcd_receiver_list_tail, param_c, param_l);}
-}
-
-//Dynamic dispatcher for message fillRect
-void dispatch_fillRect(uint16_t sender, uint16_t param_x, uint16_t param_y, uint16_t param_w, uint16_t param_l, uint16_t param_col) {
-struct executor {
-static void executor_dispatch_fillRect(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint16_t param_x, uint16_t param_y, uint16_t param_w, uint16_t param_l, uint16_t param_col) {
-struct Msg_Handler ** cur = head;
-while (cur != NULL) {
-   void (*handler)(void *, uint16_t param_x, uint16_t param_y, uint16_t param_w, uint16_t param_l, uint16_t param_col) = NULL;
-   int i;
-   for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 7) {
-           handler = (void (*) (void *, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)) (**cur).msg_handler[i];
-           break;
-       }
-   }
-   if(handler != NULL) {
-       handler((**cur).instance, param_x, param_y, param_w, param_l, param_col);
-}
-   if(cur == tail){
-       cur = NULL;}
-   else {
-   cur++;}
-}
-}
-};
-if (sender == TronCfg_tron_var.id_lcd) {
-executor::executor_dispatch_fillRect(TronCfg_tron_var.lcd_receiver_list_head, TronCfg_tron_var.lcd_receiver_list_tail, param_x, param_y, param_w, param_l, param_col);}
-}
-
-//Dynamic dispatcher for message loose
-void dispatch_loose(uint16_t sender, uint8_t param_id) {
-struct executor {
-static void executor_dispatch_loose(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_id) {
-struct Msg_Handler ** cur = head;
-while (cur != NULL) {
-   void (*handler)(void *, uint8_t param_id) = NULL;
-   int i;
-   for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 56) {
-           handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
-           break;
-       }
-   }
-   if(handler != NULL) {
-       handler((**cur).instance, param_id);
-}
-   if(cur == tail){
-       cur = NULL;}
-   else {
-   cur++;}
-}
-}
-};
-if (sender == TronCfg_tron_var.id_TronPort) {
-executor::executor_dispatch_loose(TronCfg_tron_var.TronPort_receiver_list_head, TronCfg_tron_var.TronPort_receiver_list_tail, param_id);}
-if (sender == Serial_instance.listener_id) {
-executor::executor_dispatch_loose(Serial_instance.TronPort_receiver_list_head,Serial_instance.TronPort_receiver_list_tail, param_id);}
-}
-
-//Dynamic dispatcher for message set_bgcolor
-void dispatch_set_bgcolor(uint16_t sender, uint8_t param_color) {
-struct executor {
-static void executor_dispatch_set_bgcolor(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_color) {
-struct Msg_Handler ** cur = head;
-while (cur != NULL) {
-   void (*handler)(void *, uint8_t param_color) = NULL;
-   int i;
-   for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 8) {
-           handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
-           break;
-       }
-   }
-   if(handler != NULL) {
-       handler((**cur).instance, param_color);
-}
-   if(cur == tail){
-       cur = NULL;}
-   else {
-   cur++;}
-}
-}
-};
-if (sender == TronCfg_tron_var.id_lcd) {
-executor::executor_dispatch_set_bgcolor(TronCfg_tron_var.lcd_receiver_list_head, TronCfg_tron_var.lcd_receiver_list_tail, param_color);}
-}
-
-//Dynamic dispatcher for message button_state_change
-void dispatch_button_state_change(uint16_t sender, uint8_t param_bstate) {
-struct executor {
-static void executor_dispatch_button_state_change(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_bstate) {
-struct Msg_Handler ** cur = head;
-while (cur != NULL) {
-   void (*handler)(void *, uint8_t param_bstate) = NULL;
-   int i;
-   for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 1) {
-           handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
-           break;
-       }
-   }
-   if(handler != NULL) {
-       handler((**cur).instance, param_bstate);
-}
-   if(cur == tail){
-       cur = NULL;}
-   else {
-   cur++;}
-}
-}
-};
-if (sender == TronCfg_myLCD_var.id_button) {
-executor::executor_dispatch_button_state_change(TronCfg_myLCD_var.button_receiver_list_head, TronCfg_myLCD_var.button_receiver_list_tail, param_bstate);}
-}
-
-//Dynamic dispatcher for message LCDready
-void dispatch_LCDready(uint16_t sender) {
-struct executor {
-static void executor_dispatch_LCDready(struct Msg_Handler ** head, struct Msg_Handler ** tail) {
-struct Msg_Handler ** cur = head;
-while (cur != NULL) {
-   void (*handler)(void *) = NULL;
-   int i;
-   for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 9) {
-           handler = (void (*) (void *)) (**cur).msg_handler[i];
-           break;
-       }
-   }
-   if(handler != NULL) {
-       handler((**cur).instance);
-}
-   if(cur == tail){
-       cur = NULL;}
-   else {
-   cur++;}
-}
-}
-};
-if (sender == TronCfg_myLCD_var.id_lcd) {
-executor::executor_dispatch_LCDready(TronCfg_myLCD_var.lcd_receiver_list_head, TronCfg_myLCD_var.lcd_receiver_list_tail);}
-}
-
-//Dynamic dispatcher for message timer_cancel
-void dispatch_timer_cancel(uint16_t sender, uint8_t param_id) {
-struct executor {
-static void executor_dispatch_timer_cancel(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_id) {
-struct Msg_Handler ** cur = head;
-while (cur != NULL) {
-   void (*handler)(void *, uint8_t param_id) = NULL;
-   int i;
-   for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 10) {
-           handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
-           break;
-       }
-   }
-   if(handler != NULL) {
-       handler((**cur).instance, param_id);
-}
-   if(cur == tail){
-       cur = NULL;}
-   else {
-   cur++;}
-}
-}
-};
-if (sender == TronCfg_myLCD_var.id_arduino) {
-executor::executor_dispatch_timer_cancel(TronCfg_myLCD_var.arduino_receiver_list_head, TronCfg_myLCD_var.arduino_receiver_list_tail, param_id);}
-if (sender == TronCfg_tron_var.id_arduino) {
-executor::executor_dispatch_timer_cancel(TronCfg_tron_var.arduino_receiver_list_head, TronCfg_tron_var.arduino_receiver_list_tail, param_id);}
-}
-
-//Dynamic dispatcher for message mayIHaveID
-void dispatch_mayIHaveID(uint16_t sender, uint8_t param_id) {
-struct executor {
-static void executor_dispatch_mayIHaveID(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_id) {
-struct Msg_Handler ** cur = head;
-while (cur != NULL) {
-   void (*handler)(void *, uint8_t param_id) = NULL;
-   int i;
-   for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 52) {
-           handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
-           break;
-       }
-   }
-   if(handler != NULL) {
-       handler((**cur).instance, param_id);
-}
-   if(cur == tail){
-       cur = NULL;}
-   else {
-   cur++;}
-}
-}
-};
-if (sender == TronCfg_tron_var.id_TronPort) {
-executor::executor_dispatch_mayIHaveID(TronCfg_tron_var.TronPort_receiver_list_head, TronCfg_tron_var.TronPort_receiver_list_tail, param_id);}
-if (sender == Serial_instance.listener_id) {
-executor::executor_dispatch_mayIHaveID(Serial_instance.TronPort_receiver_list_head,Serial_instance.TronPort_receiver_list_tail, param_id);}
-}
-
-//Dynamic dispatcher for message button_state
-void dispatch_button_state(uint16_t sender) {
-struct executor {
-static void executor_dispatch_button_state(struct Msg_Handler ** head, struct Msg_Handler ** tail) {
-struct Msg_Handler ** cur = head;
-while (cur != NULL) {
-   void (*handler)(void *) = NULL;
-   int i;
-   for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 3) {
-           handler = (void (*) (void *)) (**cur).msg_handler[i];
-           break;
-       }
-   }
-   if(handler != NULL) {
-       handler((**cur).instance);
-}
-   if(cur == tail){
-       cur = NULL;}
-   else {
-   cur++;}
-}
-}
-};
-if (sender == TronCfg_tron_var.id_button) {
-executor::executor_dispatch_button_state(TronCfg_tron_var.button_receiver_list_head, TronCfg_tron_var.button_receiver_list_tail);}
-}
-
-//Dynamic dispatcher for message 100ms_interrupt
-void dispatch_100ms_interrupt(uint16_t sender) {
-struct executor {
-static void executor_dispatch_100ms_interrupt(struct Msg_Handler ** head, struct Msg_Handler ** tail) {
-struct Msg_Handler ** cur = head;
-while (cur != NULL) {
-   void (*handler)(void *) = NULL;
-   int i;
-   for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 11) {
-           handler = (void (*) (void *)) (**cur).msg_handler[i];
-           break;
-       }
-   }
-   if(handler != NULL) {
-       handler((**cur).instance);
-}
-   if(cur == tail){
-       cur = NULL;}
-   else {
-   cur++;}
-}
-}
-};
-if (sender == TronCfg_arduinoScheduler_var.id_arduino) {
-executor::executor_dispatch_100ms_interrupt(TronCfg_arduinoScheduler_var.arduino_receiver_list_head, TronCfg_arduinoScheduler_var.arduino_receiver_list_tail);}
-}
-
-//Dynamic dispatcher for message clear
-void dispatch_clear(uint16_t sender) {
-struct executor {
-static void executor_dispatch_clear(struct Msg_Handler ** head, struct Msg_Handler ** tail) {
-struct Msg_Handler ** cur = head;
-while (cur != NULL) {
-   void (*handler)(void *) = NULL;
-   int i;
-   for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 12) {
-           handler = (void (*) (void *)) (**cur).msg_handler[i];
-           break;
-       }
-   }
-   if(handler != NULL) {
-       handler((**cur).instance);
-}
-   if(cur == tail){
-       cur = NULL;}
-   else {
-   cur++;}
-}
-}
-};
 if (sender == TronCfg_tron_var.id_lcd) {
 executor::executor_dispatch_clear(TronCfg_tron_var.lcd_receiver_list_head, TronCfg_tron_var.lcd_receiver_list_tail);}
 }
 
-//Dynamic dispatcher for message tronGo
-void dispatch_tronGo(uint16_t sender, uint8_t param_nbID) {
+//Dynamic dispatcher for message timeout
+void dispatch_timeout(uint16_t sender, uint8_t param_id) {
 struct executor {
-static void executor_dispatch_tronGo(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_nbID) {
+static void executor_dispatch_timeout(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_id) {
 struct Msg_Handler ** cur = head;
 while (cur != NULL) {
-   void (*handler)(void *, uint8_t param_nbID) = NULL;
+   void (*handler)(void *, uint8_t param_id) = NULL;
    int i;
    for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 54) {
+       if((**cur).msg[i] == 5) {
            handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
            break;
        }
    }
    if(handler != NULL) {
-       handler((**cur).instance, param_nbID);
+       handler((**cur).instance, param_id);
 }
    if(cur == tail){
        cur = NULL;}
@@ -2314,10 +1955,8 @@ while (cur != NULL) {
 }
 }
 };
-if (sender == TronCfg_tron_var.id_TronPort) {
-executor::executor_dispatch_tronGo(TronCfg_tron_var.TronPort_receiver_list_head, TronCfg_tron_var.TronPort_receiver_list_tail, param_nbID);}
-if (sender == Serial_instance.listener_id) {
-executor::executor_dispatch_tronGo(Serial_instance.TronPort_receiver_list_head,Serial_instance.TronPort_receiver_list_tail, param_nbID);}
+if (sender == TronCfg_arduinoScheduler_var.id_arduino) {
+executor::executor_dispatch_timeout(TronCfg_arduinoScheduler_var.arduino_receiver_list_head, TronCfg_arduinoScheduler_var.arduino_receiver_list_tail, param_id);}
 }
 
 //Dynamic dispatcher for message print_dec
@@ -2329,7 +1968,7 @@ while (cur != NULL) {
    void (*handler)(void *, double param_num) = NULL;
    int i;
    for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 13) {
+       if((**cur).msg[i] == 6) {
            handler = (void (*) (void *, double)) (**cur).msg_handler[i];
            break;
        }
@@ -2378,16 +2017,184 @@ if (sender == Serial_instance.listener_id) {
 executor::executor_dispatch_hasID(Serial_instance.TronPort_receiver_list_head,Serial_instance.TronPort_receiver_list_tail, param_id);}
 }
 
-//Dynamic dispatcher for message timeout
-void dispatch_timeout(uint16_t sender, uint8_t param_id) {
+//Dynamic dispatcher for message 1s_poll
+void dispatch_1s_poll(uint16_t sender) {
 struct executor {
-static void executor_dispatch_timeout(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_id) {
+static void executor_dispatch_1s_poll(struct Msg_Handler ** head, struct Msg_Handler ** tail) {
+struct Msg_Handler ** cur = head;
+while (cur != NULL) {
+   void (*handler)(void *) = NULL;
+   int i;
+   for(i = 0; i < (**cur).nb_msg; i++) {
+       if((**cur).msg[i] == 7) {
+           handler = (void (*) (void *)) (**cur).msg_handler[i];
+           break;
+       }
+   }
+   if(handler != NULL) {
+       handler((**cur).instance);
+}
+   if(cur == tail){
+       cur = NULL;}
+   else {
+   cur++;}
+}
+}
+};
+if (sender == TronCfg_arduinoScheduler_var.id_arduino) {
+executor::executor_dispatch_1s_poll(TronCfg_arduinoScheduler_var.arduino_receiver_list_head, TronCfg_arduinoScheduler_var.arduino_receiver_list_tail);}
+}
+
+//Dynamic dispatcher for message 4ms_interrupt
+void dispatch_4ms_interrupt(uint16_t sender) {
+struct executor {
+static void executor_dispatch_4ms_interrupt(struct Msg_Handler ** head, struct Msg_Handler ** tail) {
+struct Msg_Handler ** cur = head;
+while (cur != NULL) {
+   void (*handler)(void *) = NULL;
+   int i;
+   for(i = 0; i < (**cur).nb_msg; i++) {
+       if((**cur).msg[i] == 8) {
+           handler = (void (*) (void *)) (**cur).msg_handler[i];
+           break;
+       }
+   }
+   if(handler != NULL) {
+       handler((**cur).instance);
+}
+   if(cur == tail){
+       cur = NULL;}
+   else {
+   cur++;}
+}
+}
+};
+if (sender == TronCfg_arduinoScheduler_var.id_arduino) {
+executor::executor_dispatch_4ms_interrupt(TronCfg_arduinoScheduler_var.arduino_receiver_list_head, TronCfg_arduinoScheduler_var.arduino_receiver_list_tail);}
+}
+
+//Dynamic dispatcher for message drawRect
+void dispatch_drawRect(uint16_t sender, uint16_t param_x, uint16_t param_y, uint16_t param_w, uint16_t param_l, uint16_t param_col) {
+struct executor {
+static void executor_dispatch_drawRect(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint16_t param_x, uint16_t param_y, uint16_t param_w, uint16_t param_l, uint16_t param_col) {
+struct Msg_Handler ** cur = head;
+while (cur != NULL) {
+   void (*handler)(void *, uint16_t param_x, uint16_t param_y, uint16_t param_w, uint16_t param_l, uint16_t param_col) = NULL;
+   int i;
+   for(i = 0; i < (**cur).nb_msg; i++) {
+       if((**cur).msg[i] == 9) {
+           handler = (void (*) (void *, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)) (**cur).msg_handler[i];
+           break;
+       }
+   }
+   if(handler != NULL) {
+       handler((**cur).instance, param_x, param_y, param_w, param_l, param_col);
+}
+   if(cur == tail){
+       cur = NULL;}
+   else {
+   cur++;}
+}
+}
+};
+if (sender == TronCfg_tron_var.id_lcd) {
+executor::executor_dispatch_drawRect(TronCfg_tron_var.lcd_receiver_list_head, TronCfg_tron_var.lcd_receiver_list_tail, param_x, param_y, param_w, param_l, param_col);}
+}
+
+//Dynamic dispatcher for message print_str
+void dispatch_print_str(uint16_t sender, char * param_msg) {
+struct executor {
+static void executor_dispatch_print_str(struct Msg_Handler ** head, struct Msg_Handler ** tail, char * param_msg) {
+struct Msg_Handler ** cur = head;
+while (cur != NULL) {
+   void (*handler)(void *, char * param_msg) = NULL;
+   int i;
+   for(i = 0; i < (**cur).nb_msg; i++) {
+       if((**cur).msg[i] == 10) {
+           handler = (void (*) (void *, char *)) (**cur).msg_handler[i];
+           break;
+       }
+   }
+   if(handler != NULL) {
+       handler((**cur).instance, param_msg);
+}
+   if(cur == tail){
+       cur = NULL;}
+   else {
+   cur++;}
+}
+}
+};
+if (sender == TronCfg_tron_var.id_lcd) {
+executor::executor_dispatch_print_str(TronCfg_tron_var.lcd_receiver_list_head, TronCfg_tron_var.lcd_receiver_list_tail, param_msg);}
+}
+
+//Dynamic dispatcher for message print_num
+void dispatch_print_num(uint16_t sender, int16_t param_num) {
+struct executor {
+static void executor_dispatch_print_num(struct Msg_Handler ** head, struct Msg_Handler ** tail, int16_t param_num) {
+struct Msg_Handler ** cur = head;
+while (cur != NULL) {
+   void (*handler)(void *, int16_t param_num) = NULL;
+   int i;
+   for(i = 0; i < (**cur).nb_msg; i++) {
+       if((**cur).msg[i] == 11) {
+           handler = (void (*) (void *, int16_t)) (**cur).msg_handler[i];
+           break;
+       }
+   }
+   if(handler != NULL) {
+       handler((**cur).instance, param_num);
+}
+   if(cur == tail){
+       cur = NULL;}
+   else {
+   cur++;}
+}
+}
+};
+if (sender == TronCfg_tron_var.id_lcd) {
+executor::executor_dispatch_print_num(TronCfg_tron_var.lcd_receiver_list_head, TronCfg_tron_var.lcd_receiver_list_tail, param_num);}
+}
+
+//Dynamic dispatcher for message ready
+void dispatch_ready(uint16_t sender) {
+struct executor {
+static void executor_dispatch_ready(struct Msg_Handler ** head, struct Msg_Handler ** tail) {
+struct Msg_Handler ** cur = head;
+while (cur != NULL) {
+   void (*handler)(void *) = NULL;
+   int i;
+   for(i = 0; i < (**cur).nb_msg; i++) {
+       if((**cur).msg[i] == 12) {
+           handler = (void (*) (void *)) (**cur).msg_handler[i];
+           break;
+       }
+   }
+   if(handler != NULL) {
+       handler((**cur).instance);
+}
+   if(cur == tail){
+       cur = NULL;}
+   else {
+   cur++;}
+}
+}
+};
+if (sender == TronCfg_arduinoScheduler_var.id_arduino) {
+executor::executor_dispatch_ready(TronCfg_arduinoScheduler_var.arduino_receiver_list_head, TronCfg_arduinoScheduler_var.arduino_receiver_list_tail);}
+}
+
+//Dynamic dispatcher for message timer_cancel
+void dispatch_timer_cancel(uint16_t sender, uint8_t param_id) {
+struct executor {
+static void executor_dispatch_timer_cancel(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_id) {
 struct Msg_Handler ** cur = head;
 while (cur != NULL) {
    void (*handler)(void *, uint8_t param_id) = NULL;
    int i;
    for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 14) {
+       if((**cur).msg[i] == 13) {
            handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
            break;
        }
@@ -2402,8 +2209,40 @@ while (cur != NULL) {
 }
 }
 };
-if (sender == TronCfg_arduinoScheduler_var.id_arduino) {
-executor::executor_dispatch_timeout(TronCfg_arduinoScheduler_var.arduino_receiver_list_head, TronCfg_arduinoScheduler_var.arduino_receiver_list_tail, param_id);}
+if (sender == TronCfg_myLCD_var.id_arduino) {
+executor::executor_dispatch_timer_cancel(TronCfg_myLCD_var.arduino_receiver_list_head, TronCfg_myLCD_var.arduino_receiver_list_tail, param_id);}
+if (sender == TronCfg_tron_var.id_arduino) {
+executor::executor_dispatch_timer_cancel(TronCfg_tron_var.arduino_receiver_list_head, TronCfg_tron_var.arduino_receiver_list_tail, param_id);}
+}
+
+//Dynamic dispatcher for message iHaveID
+void dispatch_iHaveID(uint16_t sender, uint8_t param_id) {
+struct executor {
+static void executor_dispatch_iHaveID(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_id) {
+struct Msg_Handler ** cur = head;
+while (cur != NULL) {
+   void (*handler)(void *, uint8_t param_id) = NULL;
+   int i;
+   for(i = 0; i < (**cur).nb_msg; i++) {
+       if((**cur).msg[i] == 51) {
+           handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
+           break;
+       }
+   }
+   if(handler != NULL) {
+       handler((**cur).instance, param_id);
+}
+   if(cur == tail){
+       cur = NULL;}
+   else {
+   cur++;}
+}
+}
+};
+if (sender == TronCfg_tron_var.id_TronPort) {
+executor::executor_dispatch_iHaveID(TronCfg_tron_var.TronPort_receiver_list_head, TronCfg_tron_var.TronPort_receiver_list_tail, param_id);}
+if (sender == Serial_instance.listener_id) {
+executor::executor_dispatch_iHaveID(Serial_instance.TronPort_receiver_list_head,Serial_instance.TronPort_receiver_list_tail, param_id);}
 }
 
 //Dynamic dispatcher for message button_state_response
@@ -2415,7 +2254,7 @@ while (cur != NULL) {
    void (*handler)(void *, uint8_t param_bstate) = NULL;
    int i;
    for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 2) {
+       if((**cur).msg[i] == 1) {
            handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
            break;
        }
@@ -2432,6 +2271,148 @@ while (cur != NULL) {
 };
 if (sender == TronCfg_myLCD_var.id_button) {
 executor::executor_dispatch_button_state_response(TronCfg_myLCD_var.button_receiver_list_head, TronCfg_myLCD_var.button_receiver_list_tail, param_bstate);}
+}
+
+//Dynamic dispatcher for message fillRect
+void dispatch_fillRect(uint16_t sender, uint16_t param_x, uint16_t param_y, uint16_t param_w, uint16_t param_l, uint16_t param_col) {
+struct executor {
+static void executor_dispatch_fillRect(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint16_t param_x, uint16_t param_y, uint16_t param_w, uint16_t param_l, uint16_t param_col) {
+struct Msg_Handler ** cur = head;
+while (cur != NULL) {
+   void (*handler)(void *, uint16_t param_x, uint16_t param_y, uint16_t param_w, uint16_t param_l, uint16_t param_col) = NULL;
+   int i;
+   for(i = 0; i < (**cur).nb_msg; i++) {
+       if((**cur).msg[i] == 14) {
+           handler = (void (*) (void *, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)) (**cur).msg_handler[i];
+           break;
+       }
+   }
+   if(handler != NULL) {
+       handler((**cur).instance, param_x, param_y, param_w, param_l, param_col);
+}
+   if(cur == tail){
+       cur = NULL;}
+   else {
+   cur++;}
+}
+}
+};
+if (sender == TronCfg_tron_var.id_lcd) {
+executor::executor_dispatch_fillRect(TronCfg_tron_var.lcd_receiver_list_head, TronCfg_tron_var.lcd_receiver_list_tail, param_x, param_y, param_w, param_l, param_col);}
+}
+
+//Dynamic dispatcher for message tronReady
+void dispatch_tronReady(uint16_t sender, uint8_t param_id) {
+struct executor {
+static void executor_dispatch_tronReady(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_id) {
+struct Msg_Handler ** cur = head;
+while (cur != NULL) {
+   void (*handler)(void *, uint8_t param_id) = NULL;
+   int i;
+   for(i = 0; i < (**cur).nb_msg; i++) {
+       if((**cur).msg[i] == 53) {
+           handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
+           break;
+       }
+   }
+   if(handler != NULL) {
+       handler((**cur).instance, param_id);
+}
+   if(cur == tail){
+       cur = NULL;}
+   else {
+   cur++;}
+}
+}
+};
+if (sender == TronCfg_tron_var.id_TronPort) {
+executor::executor_dispatch_tronReady(TronCfg_tron_var.TronPort_receiver_list_head, TronCfg_tron_var.TronPort_receiver_list_tail, param_id);}
+if (sender == Serial_instance.listener_id) {
+executor::executor_dispatch_tronReady(Serial_instance.TronPort_receiver_list_head,Serial_instance.TronPort_receiver_list_tail, param_id);}
+}
+
+//Dynamic dispatcher for message 100ms_interrupt
+void dispatch_100ms_interrupt(uint16_t sender) {
+struct executor {
+static void executor_dispatch_100ms_interrupt(struct Msg_Handler ** head, struct Msg_Handler ** tail) {
+struct Msg_Handler ** cur = head;
+while (cur != NULL) {
+   void (*handler)(void *) = NULL;
+   int i;
+   for(i = 0; i < (**cur).nb_msg; i++) {
+       if((**cur).msg[i] == 15) {
+           handler = (void (*) (void *)) (**cur).msg_handler[i];
+           break;
+       }
+   }
+   if(handler != NULL) {
+       handler((**cur).instance);
+}
+   if(cur == tail){
+       cur = NULL;}
+   else {
+   cur++;}
+}
+}
+};
+if (sender == TronCfg_arduinoScheduler_var.id_arduino) {
+executor::executor_dispatch_100ms_interrupt(TronCfg_arduinoScheduler_var.arduino_receiver_list_head, TronCfg_arduinoScheduler_var.arduino_receiver_list_tail);}
+}
+
+//Dynamic dispatcher for message set_bgcolor
+void dispatch_set_bgcolor(uint16_t sender, uint8_t param_color) {
+struct executor {
+static void executor_dispatch_set_bgcolor(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_color) {
+struct Msg_Handler ** cur = head;
+while (cur != NULL) {
+   void (*handler)(void *, uint8_t param_color) = NULL;
+   int i;
+   for(i = 0; i < (**cur).nb_msg; i++) {
+       if((**cur).msg[i] == 16) {
+           handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
+           break;
+       }
+   }
+   if(handler != NULL) {
+       handler((**cur).instance, param_color);
+}
+   if(cur == tail){
+       cur = NULL;}
+   else {
+   cur++;}
+}
+}
+};
+if (sender == TronCfg_tron_var.id_lcd) {
+executor::executor_dispatch_set_bgcolor(TronCfg_tron_var.lcd_receiver_list_head, TronCfg_tron_var.lcd_receiver_list_tail, param_color);}
+}
+
+//Dynamic dispatcher for message set_cursor
+void dispatch_set_cursor(uint16_t sender, uint8_t param_c, uint8_t param_l) {
+struct executor {
+static void executor_dispatch_set_cursor(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_c, uint8_t param_l) {
+struct Msg_Handler ** cur = head;
+while (cur != NULL) {
+   void (*handler)(void *, uint8_t param_c, uint8_t param_l) = NULL;
+   int i;
+   for(i = 0; i < (**cur).nb_msg; i++) {
+       if((**cur).msg[i] == 17) {
+           handler = (void (*) (void *, uint8_t, uint8_t)) (**cur).msg_handler[i];
+           break;
+       }
+   }
+   if(handler != NULL) {
+       handler((**cur).instance, param_c, param_l);
+}
+   if(cur == tail){
+       cur = NULL;}
+   else {
+   cur++;}
+}
+}
+};
+if (sender == TronCfg_tron_var.id_lcd) {
+executor::executor_dispatch_set_cursor(TronCfg_tron_var.lcd_receiver_list_head, TronCfg_tron_var.lcd_receiver_list_tail, param_c, param_l);}
 }
 
 //Dynamic dispatcher for message addHead
@@ -2464,22 +2445,22 @@ if (sender == Serial_instance.listener_id) {
 executor::executor_dispatch_addHead(Serial_instance.TronPort_receiver_list_head,Serial_instance.TronPort_receiver_list_tail, param_x, param_y, param_id);}
 }
 
-//Dynamic dispatcher for message 4ms_interrupt
-void dispatch_4ms_interrupt(uint16_t sender) {
+//Dynamic dispatcher for message button_state_change
+void dispatch_button_state_change(uint16_t sender, uint8_t param_bstate) {
 struct executor {
-static void executor_dispatch_4ms_interrupt(struct Msg_Handler ** head, struct Msg_Handler ** tail) {
+static void executor_dispatch_button_state_change(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_bstate) {
 struct Msg_Handler ** cur = head;
 while (cur != NULL) {
-   void (*handler)(void *) = NULL;
+   void (*handler)(void *, uint8_t param_bstate) = NULL;
    int i;
    for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 15) {
-           handler = (void (*) (void *)) (**cur).msg_handler[i];
+       if((**cur).msg[i] == 2) {
+           handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
            break;
        }
    }
    if(handler != NULL) {
-       handler((**cur).instance);
+       handler((**cur).instance, param_bstate);
 }
    if(cur == tail){
        cur = NULL;}
@@ -2488,64 +2469,8 @@ while (cur != NULL) {
 }
 }
 };
-if (sender == TronCfg_arduinoScheduler_var.id_arduino) {
-executor::executor_dispatch_4ms_interrupt(TronCfg_arduinoScheduler_var.arduino_receiver_list_head, TronCfg_arduinoScheduler_var.arduino_receiver_list_tail);}
-}
-
-//Dynamic dispatcher for message drawRect
-void dispatch_drawRect(uint16_t sender, uint16_t param_x, uint16_t param_y, uint16_t param_w, uint16_t param_l, uint16_t param_col) {
-struct executor {
-static void executor_dispatch_drawRect(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint16_t param_x, uint16_t param_y, uint16_t param_w, uint16_t param_l, uint16_t param_col) {
-struct Msg_Handler ** cur = head;
-while (cur != NULL) {
-   void (*handler)(void *, uint16_t param_x, uint16_t param_y, uint16_t param_w, uint16_t param_l, uint16_t param_col) = NULL;
-   int i;
-   for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 16) {
-           handler = (void (*) (void *, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)) (**cur).msg_handler[i];
-           break;
-       }
-   }
-   if(handler != NULL) {
-       handler((**cur).instance, param_x, param_y, param_w, param_l, param_col);
-}
-   if(cur == tail){
-       cur = NULL;}
-   else {
-   cur++;}
-}
-}
-};
-if (sender == TronCfg_tron_var.id_lcd) {
-executor::executor_dispatch_drawRect(TronCfg_tron_var.lcd_receiver_list_head, TronCfg_tron_var.lcd_receiver_list_tail, param_x, param_y, param_w, param_l, param_col);}
-}
-
-//Dynamic dispatcher for message print_num
-void dispatch_print_num(uint16_t sender, int16_t param_num) {
-struct executor {
-static void executor_dispatch_print_num(struct Msg_Handler ** head, struct Msg_Handler ** tail, int16_t param_num) {
-struct Msg_Handler ** cur = head;
-while (cur != NULL) {
-   void (*handler)(void *, int16_t param_num) = NULL;
-   int i;
-   for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 17) {
-           handler = (void (*) (void *, int16_t)) (**cur).msg_handler[i];
-           break;
-       }
-   }
-   if(handler != NULL) {
-       handler((**cur).instance, param_num);
-}
-   if(cur == tail){
-       cur = NULL;}
-   else {
-   cur++;}
-}
-}
-};
-if (sender == TronCfg_tron_var.id_lcd) {
-executor::executor_dispatch_print_num(TronCfg_tron_var.lcd_receiver_list_head, TronCfg_tron_var.lcd_receiver_list_tail, param_num);}
+if (sender == TronCfg_myLCD_var.id_button) {
+executor::executor_dispatch_button_state_change(TronCfg_myLCD_var.button_receiver_list_head, TronCfg_myLCD_var.button_receiver_list_tail, param_bstate);}
 }
 
 //Dynamic dispatcher for message timer_start
@@ -2578,22 +2503,22 @@ if (sender == TronCfg_myLCD_var.id_arduino) {
 executor::executor_dispatch_timer_start(TronCfg_myLCD_var.arduino_receiver_list_head, TronCfg_myLCD_var.arduino_receiver_list_tail, param_id, param_time);}
 }
 
-//Dynamic dispatcher for message print_str
-void dispatch_print_str(uint16_t sender, char * param_msg) {
+//Dynamic dispatcher for message button_state
+void dispatch_button_state(uint16_t sender) {
 struct executor {
-static void executor_dispatch_print_str(struct Msg_Handler ** head, struct Msg_Handler ** tail, char * param_msg) {
+static void executor_dispatch_button_state(struct Msg_Handler ** head, struct Msg_Handler ** tail) {
 struct Msg_Handler ** cur = head;
 while (cur != NULL) {
-   void (*handler)(void *, char * param_msg) = NULL;
+   void (*handler)(void *) = NULL;
    int i;
    for(i = 0; i < (**cur).nb_msg; i++) {
-       if((**cur).msg[i] == 19) {
-           handler = (void (*) (void *, char *)) (**cur).msg_handler[i];
+       if((**cur).msg[i] == 3) {
+           handler = (void (*) (void *)) (**cur).msg_handler[i];
            break;
        }
    }
    if(handler != NULL) {
-       handler((**cur).instance, param_msg);
+       handler((**cur).instance);
 }
    if(cur == tail){
        cur = NULL;}
@@ -2602,35 +2527,165 @@ while (cur != NULL) {
 }
 }
 };
-if (sender == TronCfg_tron_var.id_lcd) {
-executor::executor_dispatch_print_str(TronCfg_tron_var.lcd_receiver_list_head, TronCfg_tron_var.lcd_receiver_list_tail, param_msg);}
+if (sender == TronCfg_tron_var.id_button) {
+executor::executor_dispatch_button_state(TronCfg_tron_var.button_receiver_list_head, TronCfg_tron_var.button_receiver_list_tail);}
 }
-void sync_dispatch_Tron_send_lcd_print_dec(struct Tron_Instance *_instance, double num){
-dispatch_print_dec(_instance->id_lcd, num);
+
+//Dynamic dispatcher for message loose
+void dispatch_loose(uint16_t sender, uint8_t param_id) {
+struct executor {
+static void executor_dispatch_loose(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_id) {
+struct Msg_Handler ** cur = head;
+while (cur != NULL) {
+   void (*handler)(void *, uint8_t param_id) = NULL;
+   int i;
+   for(i = 0; i < (**cur).nb_msg; i++) {
+       if((**cur).msg[i] == 56) {
+           handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
+           break;
+       }
+   }
+   if(handler != NULL) {
+       handler((**cur).instance, param_id);
 }
-void sync_dispatch_ArduinoScheduler_send_arduino_ready(struct ArduinoScheduler_Instance *_instance){
-dispatch_ready(_instance->id_arduino);
+   if(cur == tail){
+       cur = NULL;}
+   else {
+   cur++;}
 }
-void sync_dispatch_ArduinoScheduler_send_arduino_1s_poll(struct ArduinoScheduler_Instance *_instance){
-dispatch_1s_poll(_instance->id_arduino);
 }
-void sync_dispatch_Tron_send_lcd_set_cursor(struct Tron_Instance *_instance, uint8_t c, uint8_t l){
-dispatch_set_cursor(_instance->id_lcd, c, l);
+};
+if (sender == TronCfg_tron_var.id_TronPort) {
+executor::executor_dispatch_loose(TronCfg_tron_var.TronPort_receiver_list_head, TronCfg_tron_var.TronPort_receiver_list_tail, param_id);}
+if (sender == Serial_instance.listener_id) {
+executor::executor_dispatch_loose(Serial_instance.TronPort_receiver_list_head,Serial_instance.TronPort_receiver_list_tail, param_id);}
 }
-void sync_dispatch_Tron_send_lcd_fillRect(struct Tron_Instance *_instance, uint16_t x, uint16_t y, uint16_t w, uint16_t l, uint16_t col){
-dispatch_fillRect(_instance->id_lcd, x, y, w, l, col);
+
+//Dynamic dispatcher for message LCDready
+void dispatch_LCDready(uint16_t sender) {
+struct executor {
+static void executor_dispatch_LCDready(struct Msg_Handler ** head, struct Msg_Handler ** tail) {
+struct Msg_Handler ** cur = head;
+while (cur != NULL) {
+   void (*handler)(void *) = NULL;
+   int i;
+   for(i = 0; i < (**cur).nb_msg; i++) {
+       if((**cur).msg[i] == 19) {
+           handler = (void (*) (void *)) (**cur).msg_handler[i];
+           break;
+       }
+   }
+   if(handler != NULL) {
+       handler((**cur).instance);
 }
-void sync_dispatch_ArduinoScheduler_send_arduino_timeout(struct ArduinoScheduler_Instance *_instance, uint8_t id){
-dispatch_timeout(_instance->id_arduino, id);
+   if(cur == tail){
+       cur = NULL;}
+   else {
+   cur++;}
 }
-void sync_dispatch_Tron_send_lcd_set_bgcolor(struct Tron_Instance *_instance, uint8_t color){
-dispatch_set_bgcolor(_instance->id_lcd, color);
+}
+};
+if (sender == TronCfg_myLCD_var.id_lcd) {
+executor::executor_dispatch_LCDready(TronCfg_myLCD_var.lcd_receiver_list_head, TronCfg_myLCD_var.lcd_receiver_list_tail);}
+}
+
+//Dynamic dispatcher for message tronGo
+void dispatch_tronGo(uint16_t sender, uint8_t param_nbID) {
+struct executor {
+static void executor_dispatch_tronGo(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_nbID) {
+struct Msg_Handler ** cur = head;
+while (cur != NULL) {
+   void (*handler)(void *, uint8_t param_nbID) = NULL;
+   int i;
+   for(i = 0; i < (**cur).nb_msg; i++) {
+       if((**cur).msg[i] == 54) {
+           handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
+           break;
+       }
+   }
+   if(handler != NULL) {
+       handler((**cur).instance, param_nbID);
+}
+   if(cur == tail){
+       cur = NULL;}
+   else {
+   cur++;}
+}
+}
+};
+if (sender == TronCfg_tron_var.id_TronPort) {
+executor::executor_dispatch_tronGo(TronCfg_tron_var.TronPort_receiver_list_head, TronCfg_tron_var.TronPort_receiver_list_tail, param_nbID);}
+if (sender == Serial_instance.listener_id) {
+executor::executor_dispatch_tronGo(Serial_instance.TronPort_receiver_list_head,Serial_instance.TronPort_receiver_list_tail, param_nbID);}
+}
+
+//Dynamic dispatcher for message mayIHaveID
+void dispatch_mayIHaveID(uint16_t sender, uint8_t param_id) {
+struct executor {
+static void executor_dispatch_mayIHaveID(struct Msg_Handler ** head, struct Msg_Handler ** tail, uint8_t param_id) {
+struct Msg_Handler ** cur = head;
+while (cur != NULL) {
+   void (*handler)(void *, uint8_t param_id) = NULL;
+   int i;
+   for(i = 0; i < (**cur).nb_msg; i++) {
+       if((**cur).msg[i] == 52) {
+           handler = (void (*) (void *, uint8_t)) (**cur).msg_handler[i];
+           break;
+       }
+   }
+   if(handler != NULL) {
+       handler((**cur).instance, param_id);
+}
+   if(cur == tail){
+       cur = NULL;}
+   else {
+   cur++;}
+}
+}
+};
+if (sender == TronCfg_tron_var.id_TronPort) {
+executor::executor_dispatch_mayIHaveID(TronCfg_tron_var.TronPort_receiver_list_head, TronCfg_tron_var.TronPort_receiver_list_tail, param_id);}
+if (sender == Serial_instance.listener_id) {
+executor::executor_dispatch_mayIHaveID(Serial_instance.TronPort_receiver_list_head,Serial_instance.TronPort_receiver_list_tail, param_id);}
 }
 void sync_dispatch_Adafruit_1_8pLCDShieldShield_send_button_button_state_response(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint8_t bstate){
 dispatch_button_state_response(_instance->id_button, bstate);
 }
+void sync_dispatch_Tron_send_lcd_fillRect(struct Tron_Instance *_instance, uint16_t x, uint16_t y, uint16_t w, uint16_t l, uint16_t col){
+dispatch_fillRect(_instance->id_lcd, x, y, w, l, col);
+}
+void sync_dispatch_ArduinoScheduler_send_arduino_100ms_interrupt(struct ArduinoScheduler_Instance *_instance){
+dispatch_100ms_interrupt(_instance->id_arduino);
+}
+void sync_dispatch_Tron_send_lcd_set_bgcolor(struct Tron_Instance *_instance, uint8_t color){
+dispatch_set_bgcolor(_instance->id_lcd, color);
+}
+void sync_dispatch_Tron_send_lcd_clear(struct Tron_Instance *_instance){
+dispatch_clear(_instance->id_lcd);
+}
+void sync_dispatch_Tron_send_lcd_set_cursor(struct Tron_Instance *_instance, uint8_t c, uint8_t l){
+dispatch_set_cursor(_instance->id_lcd, c, l);
+}
+void sync_dispatch_ArduinoScheduler_send_arduino_timeout(struct ArduinoScheduler_Instance *_instance, uint8_t id){
+dispatch_timeout(_instance->id_arduino, id);
+}
+void sync_dispatch_Tron_send_lcd_print_dec(struct Tron_Instance *_instance, double num){
+dispatch_print_dec(_instance->id_lcd, num);
+}
 void sync_dispatch_Adafruit_1_8pLCDShieldShield_send_button_button_state_change(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint8_t bstate){
 dispatch_button_state_change(_instance->id_button, bstate);
+}
+void sync_dispatch_Adafruit_1_8pLCDShieldShield_send_arduino_timer_start(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint8_t id, int16_t time){
+dispatch_timer_start(_instance->id_arduino, id, time);
+}
+void sync_dispatch_Tron_send_arduino_timer_start(struct Tron_Instance *_instance, uint8_t id, int16_t time){
+dispatch_timer_start(_instance->id_arduino, id, time);
+}
+void sync_dispatch_ArduinoScheduler_send_arduino_1s_poll(struct ArduinoScheduler_Instance *_instance){
+dispatch_1s_poll(_instance->id_arduino);
+}
+void sync_dispatch_Adafruit_1_8pLCDShieldShield_send_lcd_LCDready(struct Adafruit_1_8pLCDShieldShield_Instance *_instance){
+dispatch_LCDready(_instance->id_lcd);
 }
 void sync_dispatch_ArduinoScheduler_send_arduino_4ms_interrupt(struct ArduinoScheduler_Instance *_instance){
 dispatch_4ms_interrupt(_instance->id_arduino);
@@ -2638,32 +2693,20 @@ dispatch_4ms_interrupt(_instance->id_arduino);
 void sync_dispatch_Tron_send_lcd_drawRect(struct Tron_Instance *_instance, uint16_t x, uint16_t y, uint16_t w, uint16_t l, uint16_t col){
 dispatch_drawRect(_instance->id_lcd, x, y, w, l, col);
 }
-void sync_dispatch_Adafruit_1_8pLCDShieldShield_send_lcd_LCDready(struct Adafruit_1_8pLCDShieldShield_Instance *_instance){
-dispatch_LCDready(_instance->id_lcd);
-}
-void sync_dispatch_Tron_send_arduino_timer_cancel(struct Tron_Instance *_instance, uint8_t id){
-dispatch_timer_cancel(_instance->id_arduino, id);
-}
-void sync_dispatch_Adafruit_1_8pLCDShieldShield_send_arduino_timer_cancel(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint8_t id){
-dispatch_timer_cancel(_instance->id_arduino, id);
+void sync_dispatch_Tron_send_lcd_print_str(struct Tron_Instance *_instance, char * msg){
+dispatch_print_str(_instance->id_lcd, msg);
 }
 void sync_dispatch_Tron_send_lcd_print_num(struct Tron_Instance *_instance, int16_t num){
 dispatch_print_num(_instance->id_lcd, num);
 }
-void sync_dispatch_Tron_send_arduino_timer_start(struct Tron_Instance *_instance, uint8_t id, int16_t time){
-dispatch_timer_start(_instance->id_arduino, id, time);
+void sync_dispatch_ArduinoScheduler_send_arduino_ready(struct ArduinoScheduler_Instance *_instance){
+dispatch_ready(_instance->id_arduino);
 }
-void sync_dispatch_Adafruit_1_8pLCDShieldShield_send_arduino_timer_start(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint8_t id, int16_t time){
-dispatch_timer_start(_instance->id_arduino, id, time);
+void sync_dispatch_Adafruit_1_8pLCDShieldShield_send_arduino_timer_cancel(struct Adafruit_1_8pLCDShieldShield_Instance *_instance, uint8_t id){
+dispatch_timer_cancel(_instance->id_arduino, id);
 }
-void sync_dispatch_ArduinoScheduler_send_arduino_100ms_interrupt(struct ArduinoScheduler_Instance *_instance){
-dispatch_100ms_interrupt(_instance->id_arduino);
-}
-void sync_dispatch_Tron_send_lcd_clear(struct Tron_Instance *_instance){
-dispatch_clear(_instance->id_lcd);
-}
-void sync_dispatch_Tron_send_lcd_print_str(struct Tron_Instance *_instance, char * msg){
-dispatch_print_str(_instance->id_lcd, msg);
+void sync_dispatch_Tron_send_arduino_timer_cancel(struct Tron_Instance *_instance, uint8_t id){
+dispatch_timer_cancel(_instance->id_arduino, id);
 }
 
 void processMessageQueue() {
@@ -2679,25 +2722,19 @@ code += fifo_dequeue();
 
 // Switch to call the appropriate handler
 switch(code) {
-case 1:
+case 56:
 while (mbufi < 3) mbuf[mbufi++] = fifo_dequeue();
-union u_button_state_change_bstate_t {
+union u_loose_id_t {
 uint8_t p;
 byte bytebuffer[1];
-} u_button_state_change_bstate;
-u_button_state_change_bstate.bytebuffer[0] = mbuf[2];
-dispatch_button_state_change((mbuf[0] << 8) + mbuf[1] /* instance port*/,
- u_button_state_change_bstate.p /* bstate */ );
+} u_loose_id;
+u_loose_id.bytebuffer[0] = mbuf[2];
+dispatch_loose((mbuf[0] << 8) + mbuf[1] /* instance port*/,
+ u_loose_id.p /* id */ );
 break;
-case 53:
-while (mbufi < 3) mbuf[mbufi++] = fifo_dequeue();
-union u_tronReady_id_t {
-uint8_t p;
-byte bytebuffer[1];
-} u_tronReady_id;
-u_tronReady_id.bytebuffer[0] = mbuf[2];
-dispatch_tronReady((mbuf[0] << 8) + mbuf[1] /* instance port*/,
- u_tronReady_id.p /* id */ );
+case 3:
+while (mbufi < 2) mbuf[mbufi++] = fifo_dequeue();
+dispatch_button_state((mbuf[0] << 8) + mbuf[1] /* instance port*/);
 break;
 case 51:
 while (mbufi < 3) mbuf[mbufi++] = fifo_dequeue();
@@ -2709,41 +2746,7 @@ u_iHaveID_id.bytebuffer[0] = mbuf[2];
 dispatch_iHaveID((mbuf[0] << 8) + mbuf[1] /* instance port*/,
  u_iHaveID_id.p /* id */ );
 break;
-case 50:
-while (mbufi < 3) mbuf[mbufi++] = fifo_dequeue();
-union u_hasID_id_t {
-uint8_t p;
-byte bytebuffer[1];
-} u_hasID_id;
-u_hasID_id.bytebuffer[0] = mbuf[2];
-dispatch_hasID((mbuf[0] << 8) + mbuf[1] /* instance port*/,
- u_hasID_id.p /* id */ );
-break;
-case 52:
-while (mbufi < 3) mbuf[mbufi++] = fifo_dequeue();
-union u_mayIHaveID_id_t {
-uint8_t p;
-byte bytebuffer[1];
-} u_mayIHaveID_id;
-u_mayIHaveID_id.bytebuffer[0] = mbuf[2];
-dispatch_mayIHaveID((mbuf[0] << 8) + mbuf[1] /* instance port*/,
- u_mayIHaveID_id.p /* id */ );
-break;
-case 3:
-while (mbufi < 2) mbuf[mbufi++] = fifo_dequeue();
-dispatch_button_state((mbuf[0] << 8) + mbuf[1] /* instance port*/);
-break;
-case 56:
-while (mbufi < 3) mbuf[mbufi++] = fifo_dequeue();
-union u_loose_id_t {
-uint8_t p;
-byte bytebuffer[1];
-} u_loose_id;
-u_loose_id.bytebuffer[0] = mbuf[2];
-dispatch_loose((mbuf[0] << 8) + mbuf[1] /* instance port*/,
- u_loose_id.p /* id */ );
-break;
-case 2:
+case 1:
 while (mbufi < 3) mbuf[mbufi++] = fifo_dequeue();
 union u_button_state_response_bstate_t {
 uint8_t p;
@@ -2752,6 +2755,26 @@ byte bytebuffer[1];
 u_button_state_response_bstate.bytebuffer[0] = mbuf[2];
 dispatch_button_state_response((mbuf[0] << 8) + mbuf[1] /* instance port*/,
  u_button_state_response_bstate.p /* bstate */ );
+break;
+case 53:
+while (mbufi < 3) mbuf[mbufi++] = fifo_dequeue();
+union u_tronReady_id_t {
+uint8_t p;
+byte bytebuffer[1];
+} u_tronReady_id;
+u_tronReady_id.bytebuffer[0] = mbuf[2];
+dispatch_tronReady((mbuf[0] << 8) + mbuf[1] /* instance port*/,
+ u_tronReady_id.p /* id */ );
+break;
+case 54:
+while (mbufi < 3) mbuf[mbufi++] = fifo_dequeue();
+union u_tronGo_nbID_t {
+uint8_t p;
+byte bytebuffer[1];
+} u_tronGo_nbID;
+u_tronGo_nbID.bytebuffer[0] = mbuf[2];
+dispatch_tronGo((mbuf[0] << 8) + mbuf[1] /* instance port*/,
+ u_tronGo_nbID.p /* nbID */ );
 break;
 case 55:
 while (mbufi < 5) mbuf[mbufi++] = fifo_dequeue();
@@ -2775,21 +2798,41 @@ dispatch_addHead((mbuf[0] << 8) + mbuf[1] /* instance port*/,
  u_addHead_y.p /* y */ ,
  u_addHead_id.p /* id */ );
 break;
-case 54:
+case 52:
 while (mbufi < 3) mbuf[mbufi++] = fifo_dequeue();
-union u_tronGo_nbID_t {
+union u_mayIHaveID_id_t {
 uint8_t p;
 byte bytebuffer[1];
-} u_tronGo_nbID;
-u_tronGo_nbID.bytebuffer[0] = mbuf[2];
-dispatch_tronGo((mbuf[0] << 8) + mbuf[1] /* instance port*/,
- u_tronGo_nbID.p /* nbID */ );
+} u_mayIHaveID_id;
+u_mayIHaveID_id.bytebuffer[0] = mbuf[2];
+dispatch_mayIHaveID((mbuf[0] << 8) + mbuf[1] /* instance port*/,
+ u_mayIHaveID_id.p /* id */ );
+break;
+case 2:
+while (mbufi < 3) mbuf[mbufi++] = fifo_dequeue();
+union u_button_state_change_bstate_t {
+uint8_t p;
+byte bytebuffer[1];
+} u_button_state_change_bstate;
+u_button_state_change_bstate.bytebuffer[0] = mbuf[2];
+dispatch_button_state_change((mbuf[0] << 8) + mbuf[1] /* instance port*/,
+ u_button_state_change_bstate.p /* bstate */ );
+break;
+case 50:
+while (mbufi < 3) mbuf[mbufi++] = fifo_dequeue();
+union u_hasID_id_t {
+uint8_t p;
+byte bytebuffer[1];
+} u_hasID_id;
+u_hasID_id.bytebuffer[0] = mbuf[2];
+dispatch_hasID((mbuf[0] << 8) + mbuf[1] /* instance port*/,
+ u_hasID_id.p /* id */ );
 break;
 }
 }
 
-// Forwarding of messages Tron::TronPort::addHead
-void forward_Tron_send_TronPort_addHead(struct Tron_Instance *_instance, uint8_t x, uint8_t y, uint8_t id){
+// Forwarding of messages Serial::Tron::TronPort::addHead
+void forward_Serial_Tron_send_TronPort_addHead(struct Tron_Instance *_instance, uint8_t x, uint8_t y, uint8_t id){
 byte forward_buf[5];
 forward_buf[0] = (55 >> 8) & 0xFF;
 forward_buf[1] =  55 & 0xFF;
@@ -2823,8 +2866,8 @@ forward_buf[4] =  (u_id.bytebuffer[0] & 0xFF);
 Serial_forwardMessage(forward_buf, 5);
 }
 
-// Forwarding of messages Tron::TronPort::loose
-void forward_Tron_send_TronPort_loose(struct Tron_Instance *_instance, uint8_t id){
+// Forwarding of messages Serial::Tron::TronPort::loose
+void forward_Serial_Tron_send_TronPort_loose(struct Tron_Instance *_instance, uint8_t id){
 byte forward_buf[3];
 forward_buf[0] = (56 >> 8) & 0xFF;
 forward_buf[1] =  56 & 0xFF;
@@ -2842,8 +2885,8 @@ forward_buf[2] =  (u_id.bytebuffer[0] & 0xFF);
 Serial_forwardMessage(forward_buf, 3);
 }
 
-// Forwarding of messages Tron::TronPort::tronReady
-void forward_Tron_send_TronPort_tronReady(struct Tron_Instance *_instance, uint8_t id){
+// Forwarding of messages Serial::Tron::TronPort::tronReady
+void forward_Serial_Tron_send_TronPort_tronReady(struct Tron_Instance *_instance, uint8_t id){
 byte forward_buf[3];
 forward_buf[0] = (53 >> 8) & 0xFF;
 forward_buf[1] =  53 & 0xFF;
@@ -2861,8 +2904,8 @@ forward_buf[2] =  (u_id.bytebuffer[0] & 0xFF);
 Serial_forwardMessage(forward_buf, 3);
 }
 
-// Forwarding of messages Tron::TronPort::tronGo
-void forward_Tron_send_TronPort_tronGo(struct Tron_Instance *_instance, uint8_t nbID){
+// Forwarding of messages Serial::Tron::TronPort::tronGo
+void forward_Serial_Tron_send_TronPort_tronGo(struct Tron_Instance *_instance, uint8_t nbID){
 byte forward_buf[3];
 forward_buf[0] = (54 >> 8) & 0xFF;
 forward_buf[1] =  54 & 0xFF;
@@ -2880,8 +2923,8 @@ forward_buf[2] =  (u_nbID.bytebuffer[0] & 0xFF);
 Serial_forwardMessage(forward_buf, 3);
 }
 
-// Forwarding of messages Tron::TronPort::hasID
-void forward_Tron_send_TronPort_hasID(struct Tron_Instance *_instance, uint8_t id){
+// Forwarding of messages Serial::Tron::TronPort::hasID
+void forward_Serial_Tron_send_TronPort_hasID(struct Tron_Instance *_instance, uint8_t id){
 byte forward_buf[3];
 forward_buf[0] = (50 >> 8) & 0xFF;
 forward_buf[1] =  50 & 0xFF;
@@ -2899,8 +2942,8 @@ forward_buf[2] =  (u_id.bytebuffer[0] & 0xFF);
 Serial_forwardMessage(forward_buf, 3);
 }
 
-// Forwarding of messages Tron::TronPort::iHaveID
-void forward_Tron_send_TronPort_iHaveID(struct Tron_Instance *_instance, uint8_t id){
+// Forwarding of messages Serial::Tron::TronPort::iHaveID
+void forward_Serial_Tron_send_TronPort_iHaveID(struct Tron_Instance *_instance, uint8_t id){
 byte forward_buf[3];
 forward_buf[0] = (51 >> 8) & 0xFF;
 forward_buf[1] =  51 & 0xFF;
@@ -2918,8 +2961,8 @@ forward_buf[2] =  (u_id.bytebuffer[0] & 0xFF);
 Serial_forwardMessage(forward_buf, 3);
 }
 
-// Forwarding of messages Tron::TronPort::mayIHaveID
-void forward_Tron_send_TronPort_mayIHaveID(struct Tron_Instance *_instance, uint8_t id){
+// Forwarding of messages Serial::Tron::TronPort::mayIHaveID
+void forward_Serial_Tron_send_TronPort_mayIHaveID(struct Tron_Instance *_instance, uint8_t id){
 byte forward_buf[3];
 forward_buf[0] = (52 >> 8) & 0xFF;
 forward_buf[1] =  52 & 0xFF;
@@ -2937,13 +2980,48 @@ forward_buf[2] =  (u_id.bytebuffer[0] & 0xFF);
 Serial_forwardMessage(forward_buf, 3);
 }
 
+void forward_Tron_send_TronPort_loose(struct Tron_Instance *_instance, uint8_t id){
+if(_instance->id_TronPort == TronCfg_tron_var.id_TronPort) {
+forward_Serial_Tron_send_TronPort_loose(_instance, id);
+}
+}
+void forward_Tron_send_TronPort_iHaveID(struct Tron_Instance *_instance, uint8_t id){
+if(_instance->id_TronPort == TronCfg_tron_var.id_TronPort) {
+forward_Serial_Tron_send_TronPort_iHaveID(_instance, id);
+}
+}
+void forward_Tron_send_TronPort_tronReady(struct Tron_Instance *_instance, uint8_t id){
+if(_instance->id_TronPort == TronCfg_tron_var.id_TronPort) {
+forward_Serial_Tron_send_TronPort_tronReady(_instance, id);
+}
+}
+void forward_Tron_send_TronPort_tronGo(struct Tron_Instance *_instance, uint8_t nbID){
+if(_instance->id_TronPort == TronCfg_tron_var.id_TronPort) {
+forward_Serial_Tron_send_TronPort_tronGo(_instance, nbID);
+}
+}
+void forward_Tron_send_TronPort_addHead(struct Tron_Instance *_instance, uint8_t x, uint8_t y, uint8_t id){
+if(_instance->id_TronPort == TronCfg_tron_var.id_TronPort) {
+forward_Serial_Tron_send_TronPort_addHead(_instance, x, y, id);
+}
+}
+void forward_Tron_send_TronPort_mayIHaveID(struct Tron_Instance *_instance, uint8_t id){
+if(_instance->id_TronPort == TronCfg_tron_var.id_TronPort) {
+forward_Serial_Tron_send_TronPort_mayIHaveID(_instance, id);
+}
+}
+void forward_Tron_send_TronPort_hasID(struct Tron_Instance *_instance, uint8_t id){
+if(_instance->id_TronPort == TronCfg_tron_var.id_TronPort) {
+forward_Serial_Tron_send_TronPort_hasID(_instance, id);
+}
+}
 
 //external Message enqueue
 void externalMessageEnqueue(uint8_t * msg, uint8_t msgSize, uint16_t listener_id) {
 if ((msgSize >= 2) && (msg != NULL)) {
 uint8_t msgSizeOK = 0;
 switch(msg[0] * 256 + msg[1]) {
-case 53:
+case 56:
 if(msgSize == 3) {
 msgSizeOK = 1;}
 break;
@@ -2951,15 +3029,11 @@ case 51:
 if(msgSize == 3) {
 msgSizeOK = 1;}
 break;
-case 50:
+case 53:
 if(msgSize == 3) {
 msgSizeOK = 1;}
 break;
-case 52:
-if(msgSize == 3) {
-msgSizeOK = 1;}
-break;
-case 56:
+case 54:
 if(msgSize == 3) {
 msgSizeOK = 1;}
 break;
@@ -2967,7 +3041,11 @@ case 55:
 if(msgSize == 5) {
 msgSizeOK = 1;}
 break;
-case 54:
+case 52:
+if(msgSize == 3) {
+msgSizeOK = 1;}
+break;
+case 50:
 if(msgSize == 3) {
 msgSizeOK = 1;}
 break;
@@ -3009,17 +3087,59 @@ register_Tron_send_lcd_fillRect_listener(sync_dispatch_Tron_send_lcd_fillRect);
 register_Tron_send_lcd_drawRect_listener(sync_dispatch_Tron_send_lcd_drawRect);
 register_Tron_send_arduino_timer_start_listener(sync_dispatch_Tron_send_arduino_timer_start);
 register_Tron_send_arduino_timer_cancel_listener(sync_dispatch_Tron_send_arduino_timer_cancel);
-register_ArduinoScheduler_send_arduino_ready_listener(sync_dispatch_ArduinoScheduler_send_arduino_ready);
-register_ArduinoScheduler_send_arduino_4ms_interrupt_listener(sync_dispatch_ArduinoScheduler_send_arduino_4ms_interrupt);
-register_ArduinoScheduler_send_arduino_100ms_interrupt_listener(sync_dispatch_ArduinoScheduler_send_arduino_100ms_interrupt);
-register_ArduinoScheduler_send_arduino_1s_poll_listener(sync_dispatch_ArduinoScheduler_send_arduino_1s_poll);
-register_ArduinoScheduler_send_arduino_timeout_listener(sync_dispatch_ArduinoScheduler_send_arduino_timeout);
 register_Adafruit_1_8pLCDShieldShield_send_button_button_state_response_listener(enqueue_Adafruit_1_8pLCDShieldShield_send_button_button_state_response);
 register_Adafruit_1_8pLCDShieldShield_send_button_button_state_change_listener(enqueue_Adafruit_1_8pLCDShieldShield_send_button_button_state_change);
 register_Adafruit_1_8pLCDShieldShield_send_lcd_LCDready_listener(sync_dispatch_Adafruit_1_8pLCDShieldShield_send_lcd_LCDready);
 register_Adafruit_1_8pLCDShieldShield_send_arduino_timer_start_listener(sync_dispatch_Adafruit_1_8pLCDShieldShield_send_arduino_timer_start);
 register_Adafruit_1_8pLCDShieldShield_send_arduino_timer_cancel_listener(sync_dispatch_Adafruit_1_8pLCDShieldShield_send_arduino_timer_cancel);
+register_ArduinoScheduler_send_arduino_ready_listener(sync_dispatch_ArduinoScheduler_send_arduino_ready);
+register_ArduinoScheduler_send_arduino_4ms_interrupt_listener(sync_dispatch_ArduinoScheduler_send_arduino_4ms_interrupt);
+register_ArduinoScheduler_send_arduino_100ms_interrupt_listener(sync_dispatch_ArduinoScheduler_send_arduino_100ms_interrupt);
+register_ArduinoScheduler_send_arduino_1s_poll_listener(sync_dispatch_ArduinoScheduler_send_arduino_1s_poll);
+register_ArduinoScheduler_send_arduino_timeout_listener(sync_dispatch_ArduinoScheduler_send_arduino_timeout);
 
+// Init the ID, state variables and properties for external connector Serial
+Serial_instance.listener_id = add_instance( (void*) &Serial_instance);
+TronCfg_receivers[0] = &TronCfg_tron_TronPort_handlers;
+Serial_instance.TronPort_receiver_list_head = &TronCfg_receivers[0];
+Serial_instance.TronPort_receiver_list_tail = &TronCfg_receivers[0];
+
+// Network Initilization 
+//Serial:
+Serial_setup();
+
+
+// End Network Initilization 
+
+// Init the ID, state variables and properties for instance TronCfg_arduinoScheduler
+TronCfg_arduinoScheduler_var.id_arduino = add_instance( (void*) &TronCfg_arduinoScheduler_var);
+TronCfg_arduinoScheduler_arduino_msgs[0] = 18;
+TronCfg_arduinoScheduler_arduino_handlers_tab[0] = (void*) &ArduinoScheduler_handle_arduino_timer_start;
+TronCfg_arduinoScheduler_arduino_msgs[1] = 13;
+TronCfg_arduinoScheduler_arduino_handlers_tab[1] = (void*) &ArduinoScheduler_handle_arduino_timer_cancel;
+TronCfg_arduinoScheduler_arduino_handlers.nb_msg = 2;
+TronCfg_arduinoScheduler_arduino_handlers.msg = (uint16_t *) &TronCfg_arduinoScheduler_arduino_msgs;
+TronCfg_arduinoScheduler_arduino_handlers.msg_handler = (void **) &TronCfg_arduinoScheduler_arduino_handlers_tab;
+TronCfg_arduinoScheduler_arduino_handlers.instance = &TronCfg_arduinoScheduler_var;
+TronCfg_arduinoScheduler_var.arduino_handlers = &TronCfg_arduinoScheduler_arduino_handlers;
+TronCfg_receivers[1] = &TronCfg_myLCD_arduino_handlers;
+TronCfg_receivers[2] = &TronCfg_tron_arduino_handlers;
+TronCfg_arduinoScheduler_var.arduino_receiver_list_head = &TronCfg_receivers[1];
+TronCfg_arduinoScheduler_var.arduino_receiver_list_tail = &TronCfg_receivers[2];
+TronCfg_arduinoScheduler_var.id_polling = add_instance( (void*) &TronCfg_arduinoScheduler_var);
+TronCfg_arduinoScheduler_polling_msgs[0] = 20;
+TronCfg_arduinoScheduler_polling_handlers_tab[0] = (void*) &ArduinoScheduler_handle_polling_setup;
+TronCfg_arduinoScheduler_polling_msgs[1] = 21;
+TronCfg_arduinoScheduler_polling_handlers_tab[1] = (void*) &ArduinoScheduler_handle_polling_poll;
+TronCfg_arduinoScheduler_polling_handlers.nb_msg = 2;
+TronCfg_arduinoScheduler_polling_handlers.msg = (uint16_t *) &TronCfg_arduinoScheduler_polling_msgs;
+TronCfg_arduinoScheduler_polling_handlers.msg_handler = (void **) &TronCfg_arduinoScheduler_polling_handlers_tab;
+TronCfg_arduinoScheduler_polling_handlers.instance = &TronCfg_arduinoScheduler_var;
+TronCfg_arduinoScheduler_var.polling_handlers = &TronCfg_arduinoScheduler_polling_handlers;
+TronCfg_arduinoScheduler_var.ArduinoScheduler_ArduinoSchedulerStateChart_State = ARDUINOSCHEDULER_ARDUINOSCHEDULERSTATECHART_ACTIVE_STATE;
+TronCfg_arduinoScheduler_var.ArduinoScheduler_interrupt_counter__var = 0;
+
+ArduinoScheduler_ArduinoSchedulerStateChart_OnEntry(ARDUINOSCHEDULER_ARDUINOSCHEDULERSTATECHART_STATE, &TronCfg_arduinoScheduler_var);
 // Init the ID, state variables and properties for instance TronCfg_myLCD
 TronCfg_myLCD_var.id_button = add_instance( (void*) &TronCfg_myLCD_var);
 TronCfg_myLCD_button_msgs[0] = 3;
@@ -3029,56 +3149,57 @@ TronCfg_myLCD_button_handlers.msg = (uint16_t *) &TronCfg_myLCD_button_msgs;
 TronCfg_myLCD_button_handlers.msg_handler = (void **) &TronCfg_myLCD_button_handlers_tab;
 TronCfg_myLCD_button_handlers.instance = &TronCfg_myLCD_var;
 TronCfg_myLCD_var.button_handlers = &TronCfg_myLCD_button_handlers;
-TronCfg_receivers[0] = &TronCfg_tron_button_handlers;
-TronCfg_myLCD_var.button_receiver_list_head = &TronCfg_receivers[0];
-TronCfg_myLCD_var.button_receiver_list_tail = &TronCfg_receivers[0];
+TronCfg_receivers[3] = &TronCfg_tron_button_handlers;
+TronCfg_myLCD_var.button_receiver_list_head = &TronCfg_receivers[3];
+TronCfg_myLCD_var.button_receiver_list_tail = &TronCfg_receivers[3];
 TronCfg_myLCD_var.id_lcd = add_instance( (void*) &TronCfg_myLCD_var);
-TronCfg_myLCD_lcd_msgs[0] = 17;
+TronCfg_myLCD_lcd_msgs[0] = 11;
 TronCfg_myLCD_lcd_handlers_tab[0] = (void*) &Adafruit_1_8pLCDShieldShield_handle_lcd_print_num;
-TronCfg_myLCD_lcd_msgs[1] = 13;
+TronCfg_myLCD_lcd_msgs[1] = 6;
 TronCfg_myLCD_lcd_handlers_tab[1] = (void*) &Adafruit_1_8pLCDShieldShield_handle_lcd_print_dec;
-TronCfg_myLCD_lcd_msgs[2] = 19;
+TronCfg_myLCD_lcd_msgs[2] = 10;
 TronCfg_myLCD_lcd_handlers_tab[2] = (void*) &Adafruit_1_8pLCDShieldShield_handle_lcd_print_str;
-TronCfg_myLCD_lcd_msgs[3] = 12;
+TronCfg_myLCD_lcd_msgs[3] = 4;
 TronCfg_myLCD_lcd_handlers_tab[3] = (void*) &Adafruit_1_8pLCDShieldShield_handle_lcd_clear;
-TronCfg_myLCD_lcd_msgs[4] = 6;
+TronCfg_myLCD_lcd_msgs[4] = 17;
 TronCfg_myLCD_lcd_handlers_tab[4] = (void*) &Adafruit_1_8pLCDShieldShield_handle_lcd_set_cursor;
-TronCfg_myLCD_lcd_msgs[5] = 8;
+TronCfg_myLCD_lcd_msgs[5] = 16;
 TronCfg_myLCD_lcd_handlers_tab[5] = NULL;
-TronCfg_myLCD_lcd_msgs[6] = 7;
+TronCfg_myLCD_lcd_msgs[6] = 14;
 TronCfg_myLCD_lcd_handlers_tab[6] = (void*) &Adafruit_1_8pLCDShieldShield_handle_lcd_fillRect;
-TronCfg_myLCD_lcd_msgs[7] = 16;
+TronCfg_myLCD_lcd_msgs[7] = 9;
 TronCfg_myLCD_lcd_handlers_tab[7] = (void*) &Adafruit_1_8pLCDShieldShield_handle_lcd_drawRect;
 TronCfg_myLCD_lcd_handlers.nb_msg = 8;
 TronCfg_myLCD_lcd_handlers.msg = (uint16_t *) &TronCfg_myLCD_lcd_msgs;
 TronCfg_myLCD_lcd_handlers.msg_handler = (void **) &TronCfg_myLCD_lcd_handlers_tab;
 TronCfg_myLCD_lcd_handlers.instance = &TronCfg_myLCD_var;
 TronCfg_myLCD_var.lcd_handlers = &TronCfg_myLCD_lcd_handlers;
-TronCfg_receivers[1] = &TronCfg_tron_lcd_handlers;
-TronCfg_myLCD_var.lcd_receiver_list_head = &TronCfg_receivers[1];
-TronCfg_myLCD_var.lcd_receiver_list_tail = &TronCfg_receivers[1];
+TronCfg_receivers[4] = &TronCfg_tron_lcd_handlers;
+TronCfg_myLCD_var.lcd_receiver_list_head = &TronCfg_receivers[4];
+TronCfg_myLCD_var.lcd_receiver_list_tail = &TronCfg_receivers[4];
 TronCfg_myLCD_var.id_arduino = add_instance( (void*) &TronCfg_myLCD_var);
-TronCfg_myLCD_arduino_msgs[0] = 4;
+TronCfg_myLCD_arduino_msgs[0] = 12;
 TronCfg_myLCD_arduino_handlers_tab[0] = (void*) &Adafruit_1_8pLCDShieldShield_handle_arduino_ready;
-TronCfg_myLCD_arduino_msgs[1] = 15;
+TronCfg_myLCD_arduino_msgs[1] = 8;
 TronCfg_myLCD_arduino_handlers_tab[1] = NULL;
-TronCfg_myLCD_arduino_msgs[2] = 11;
+TronCfg_myLCD_arduino_msgs[2] = 15;
 TronCfg_myLCD_arduino_handlers_tab[2] = (void*) &Adafruit_1_8pLCDShieldShield_handle_arduino_100ms_interrupt;
-TronCfg_myLCD_arduino_msgs[3] = 5;
+TronCfg_myLCD_arduino_msgs[3] = 7;
 TronCfg_myLCD_arduino_handlers_tab[3] = NULL;
-TronCfg_myLCD_arduino_msgs[4] = 14;
+TronCfg_myLCD_arduino_msgs[4] = 5;
 TronCfg_myLCD_arduino_handlers_tab[4] = NULL;
 TronCfg_myLCD_arduino_handlers.nb_msg = 5;
 TronCfg_myLCD_arduino_handlers.msg = (uint16_t *) &TronCfg_myLCD_arduino_msgs;
 TronCfg_myLCD_arduino_handlers.msg_handler = (void **) &TronCfg_myLCD_arduino_handlers_tab;
 TronCfg_myLCD_arduino_handlers.instance = &TronCfg_myLCD_var;
 TronCfg_myLCD_var.arduino_handlers = &TronCfg_myLCD_arduino_handlers;
-TronCfg_receivers[2] = &TronCfg_arduinoScheduler_arduino_handlers;
-TronCfg_myLCD_var.arduino_receiver_list_head = &TronCfg_receivers[2];
-TronCfg_myLCD_var.arduino_receiver_list_tail = &TronCfg_receivers[2];
+TronCfg_receivers[5] = &TronCfg_arduinoScheduler_arduino_handlers;
+TronCfg_myLCD_var.arduino_receiver_list_head = &TronCfg_receivers[5];
+TronCfg_myLCD_var.arduino_receiver_list_tail = &TronCfg_receivers[5];
 TronCfg_myLCD_var.Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_State = ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_EMPTY_STATE;
 TronCfg_myLCD_var.Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_bpin__var = 3;
 
+Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_OnEntry(ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_STATE, &TronCfg_myLCD_var);
 // Init the ID, state variables and properties for instance TronCfg_tron
 TronCfg_tron_var.id_TronPort = add_instance( (void*) &TronCfg_tron_var);
 TronCfg_tron_TronPort_msgs[0] = 55;
@@ -3101,50 +3222,50 @@ TronCfg_tron_TronPort_handlers.msg_handler = (void **) &TronCfg_tron_TronPort_ha
 TronCfg_tron_TronPort_handlers.instance = &TronCfg_tron_var;
 TronCfg_tron_var.TronPort_handlers = &TronCfg_tron_TronPort_handlers;
 TronCfg_tron_var.TronPort_receiver_list_head = NULL;
-TronCfg_tron_var.TronPort_receiver_list_tail = &TronCfg_receivers[3];
+TronCfg_tron_var.TronPort_receiver_list_tail = &TronCfg_receivers[6];
 TronCfg_tron_var.id_button = add_instance( (void*) &TronCfg_tron_var);
-TronCfg_tron_button_msgs[0] = 2;
+TronCfg_tron_button_msgs[0] = 1;
 TronCfg_tron_button_handlers_tab[0] = NULL;
-TronCfg_tron_button_msgs[1] = 1;
+TronCfg_tron_button_msgs[1] = 2;
 TronCfg_tron_button_handlers_tab[1] = (void*) &Tron_handle_button_button_state_change;
 TronCfg_tron_button_handlers.nb_msg = 2;
 TronCfg_tron_button_handlers.msg = (uint16_t *) &TronCfg_tron_button_msgs;
 TronCfg_tron_button_handlers.msg_handler = (void **) &TronCfg_tron_button_handlers_tab;
 TronCfg_tron_button_handlers.instance = &TronCfg_tron_var;
 TronCfg_tron_var.button_handlers = &TronCfg_tron_button_handlers;
-TronCfg_receivers[3] = &TronCfg_myLCD_button_handlers;
-TronCfg_tron_var.button_receiver_list_head = &TronCfg_receivers[3];
-TronCfg_tron_var.button_receiver_list_tail = &TronCfg_receivers[3];
+TronCfg_receivers[6] = &TronCfg_myLCD_button_handlers;
+TronCfg_tron_var.button_receiver_list_head = &TronCfg_receivers[6];
+TronCfg_tron_var.button_receiver_list_tail = &TronCfg_receivers[6];
 TronCfg_tron_var.id_lcd = add_instance( (void*) &TronCfg_tron_var);
-TronCfg_tron_lcd_msgs[0] = 9;
+TronCfg_tron_lcd_msgs[0] = 19;
 TronCfg_tron_lcd_handlers_tab[0] = (void*) &Tron_handle_lcd_LCDready;
 TronCfg_tron_lcd_handlers.nb_msg = 1;
 TronCfg_tron_lcd_handlers.msg = (uint16_t *) &TronCfg_tron_lcd_msgs;
 TronCfg_tron_lcd_handlers.msg_handler = (void **) &TronCfg_tron_lcd_handlers_tab;
 TronCfg_tron_lcd_handlers.instance = &TronCfg_tron_var;
 TronCfg_tron_var.lcd_handlers = &TronCfg_tron_lcd_handlers;
-TronCfg_receivers[4] = &TronCfg_myLCD_lcd_handlers;
-TronCfg_tron_var.lcd_receiver_list_head = &TronCfg_receivers[4];
-TronCfg_tron_var.lcd_receiver_list_tail = &TronCfg_receivers[4];
+TronCfg_receivers[7] = &TronCfg_myLCD_lcd_handlers;
+TronCfg_tron_var.lcd_receiver_list_head = &TronCfg_receivers[7];
+TronCfg_tron_var.lcd_receiver_list_tail = &TronCfg_receivers[7];
 TronCfg_tron_var.id_arduino = add_instance( (void*) &TronCfg_tron_var);
-TronCfg_tron_arduino_msgs[0] = 4;
+TronCfg_tron_arduino_msgs[0] = 12;
 TronCfg_tron_arduino_handlers_tab[0] = NULL;
-TronCfg_tron_arduino_msgs[1] = 15;
+TronCfg_tron_arduino_msgs[1] = 8;
 TronCfg_tron_arduino_handlers_tab[1] = NULL;
-TronCfg_tron_arduino_msgs[2] = 11;
+TronCfg_tron_arduino_msgs[2] = 15;
 TronCfg_tron_arduino_handlers_tab[2] = (void*) &Tron_handle_arduino_100ms_interrupt;
-TronCfg_tron_arduino_msgs[3] = 5;
+TronCfg_tron_arduino_msgs[3] = 7;
 TronCfg_tron_arduino_handlers_tab[3] = NULL;
-TronCfg_tron_arduino_msgs[4] = 14;
+TronCfg_tron_arduino_msgs[4] = 5;
 TronCfg_tron_arduino_handlers_tab[4] = (void*) &Tron_handle_arduino_timeout;
 TronCfg_tron_arduino_handlers.nb_msg = 5;
 TronCfg_tron_arduino_handlers.msg = (uint16_t *) &TronCfg_tron_arduino_msgs;
 TronCfg_tron_arduino_handlers.msg_handler = (void **) &TronCfg_tron_arduino_handlers_tab;
 TronCfg_tron_arduino_handlers.instance = &TronCfg_tron_var;
 TronCfg_tron_var.arduino_handlers = &TronCfg_tron_arduino_handlers;
-TronCfg_receivers[5] = &TronCfg_arduinoScheduler_arduino_handlers;
-TronCfg_tron_var.arduino_receiver_list_head = &TronCfg_receivers[5];
-TronCfg_tron_var.arduino_receiver_list_tail = &TronCfg_receivers[5];
+TronCfg_receivers[8] = &TronCfg_arduinoScheduler_arduino_handlers;
+TronCfg_tron_var.arduino_receiver_list_head = &TronCfg_receivers[8];
+TronCfg_tron_var.arduino_receiver_list_tail = &TronCfg_receivers[8];
 TronCfg_tron_var.Tron_TronStateChart_State = TRON_TRONSTATECHART_INIT_STATE;
 TronCfg_tron_var.Tron_myID__var = 0;
 TronCfg_tron_var.Tron_nbID__var = 1;
@@ -3159,53 +3280,10 @@ TronCfg_tron_var.Tron_headIndexQuarter__var = 0;
 TronCfg_tron_var.Tron_lost__var = 0;
 TronCfg_tron_var.Tron_won__var = 0;
 TronCfg_tron_var.Tron_timer__var = 1;
-TronCfg_tron_var.Tron_speed__var = 600;
+TronCfg_tron_var.Tron_speed__var = 500;
 TronCfg_tron_var.Tron_dirBuff__var = B00000001;
 
-// Init the ID, state variables and properties for instance TronCfg_arduinoScheduler
-TronCfg_arduinoScheduler_var.id_arduino = add_instance( (void*) &TronCfg_arduinoScheduler_var);
-TronCfg_arduinoScheduler_arduino_msgs[0] = 18;
-TronCfg_arduinoScheduler_arduino_handlers_tab[0] = (void*) &ArduinoScheduler_handle_arduino_timer_start;
-TronCfg_arduinoScheduler_arduino_msgs[1] = 10;
-TronCfg_arduinoScheduler_arduino_handlers_tab[1] = (void*) &ArduinoScheduler_handle_arduino_timer_cancel;
-TronCfg_arduinoScheduler_arduino_handlers.nb_msg = 2;
-TronCfg_arduinoScheduler_arduino_handlers.msg = (uint16_t *) &TronCfg_arduinoScheduler_arduino_msgs;
-TronCfg_arduinoScheduler_arduino_handlers.msg_handler = (void **) &TronCfg_arduinoScheduler_arduino_handlers_tab;
-TronCfg_arduinoScheduler_arduino_handlers.instance = &TronCfg_arduinoScheduler_var;
-TronCfg_arduinoScheduler_var.arduino_handlers = &TronCfg_arduinoScheduler_arduino_handlers;
-TronCfg_receivers[6] = &TronCfg_tron_arduino_handlers;
-TronCfg_receivers[7] = &TronCfg_myLCD_arduino_handlers;
-TronCfg_arduinoScheduler_var.arduino_receiver_list_head = &TronCfg_receivers[6];
-TronCfg_arduinoScheduler_var.arduino_receiver_list_tail = &TronCfg_receivers[7];
-TronCfg_arduinoScheduler_var.id_polling = add_instance( (void*) &TronCfg_arduinoScheduler_var);
-TronCfg_arduinoScheduler_polling_msgs[0] = 20;
-TronCfg_arduinoScheduler_polling_handlers_tab[0] = (void*) &ArduinoScheduler_handle_polling_setup;
-TronCfg_arduinoScheduler_polling_msgs[1] = 21;
-TronCfg_arduinoScheduler_polling_handlers_tab[1] = (void*) &ArduinoScheduler_handle_polling_poll;
-TronCfg_arduinoScheduler_polling_handlers.nb_msg = 2;
-TronCfg_arduinoScheduler_polling_handlers.msg = (uint16_t *) &TronCfg_arduinoScheduler_polling_msgs;
-TronCfg_arduinoScheduler_polling_handlers.msg_handler = (void **) &TronCfg_arduinoScheduler_polling_handlers_tab;
-TronCfg_arduinoScheduler_polling_handlers.instance = &TronCfg_arduinoScheduler_var;
-TronCfg_arduinoScheduler_var.polling_handlers = &TronCfg_arduinoScheduler_polling_handlers;
-TronCfg_arduinoScheduler_var.ArduinoScheduler_ArduinoSchedulerStateChart_State = ARDUINOSCHEDULER_ARDUINOSCHEDULERSTATECHART_ACTIVE_STATE;
-TronCfg_arduinoScheduler_var.ArduinoScheduler_interrupt_counter__var = 0;
-
-// Init the ID, state variables and properties for external connector Serial
-Serial_instance.listener_id = add_instance( (void*) &Serial_instance);
-TronCfg_receivers[8] = &TronCfg_tron_TronPort_handlers;
-Serial_instance.TronPort_receiver_list_head = &TronCfg_receivers[8];
-Serial_instance.TronPort_receiver_list_tail = &TronCfg_receivers[8];
-
-// Network Initilization 
-//Serial:
-Serial_setup();
-
-
-// End Network Initilization 
-
-Adafruit_1_8pLCDShieldShield_RGBLCDShieldSM_OnEntry(ADAFRUIT_1_8PLCDSHIELDSHIELD_RGBLCDSHIELDSM_STATE, &TronCfg_myLCD_var);
 Tron_TronStateChart_OnEntry(TRON_TRONSTATECHART_STATE, &TronCfg_tron_var);
-ArduinoScheduler_ArduinoSchedulerStateChart_OnEntry(ARDUINOSCHEDULER_ARDUINOSCHEDULERSTATECHART_STATE, &TronCfg_arduinoScheduler_var);
 }
 
 
@@ -3222,7 +3300,11 @@ ArduinoScheduler_handle_polling_poll(&TronCfg_arduinoScheduler_var);
 
 // Network Listener
 Serial_read();
-Adafruit_1_8pLCDShieldShield_handle_empty_event(&TronCfg_myLCD_var);
+int emptyEventConsumed = 1;
+while (emptyEventConsumed != 0) {
+emptyEventConsumed = 0;
+emptyEventConsumed += Adafruit_1_8pLCDShieldShield_handle_empty_event(&TronCfg_myLCD_var);
+}
 
     processMessageQueue();
 }

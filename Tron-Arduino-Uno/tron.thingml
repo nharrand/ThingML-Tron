@@ -45,9 +45,9 @@ thing Tron includes Adafruit_1_8pLCDShieldClient, TronMsgs
 	property speed : Integer = 500
 	property direction : UInt8
 	property dirBuff : UInt8 = 'B00000001'
-	property color : UInt16[4]
-	property hasLost : Boolean[4]
-	property isReady : Boolean[4]
+	property color : UInt16[8]
+	property hasLost : Boolean[8]
+	property isReady : Boolean[8]
 	
 	function hasWon() : Boolean do
 		'
@@ -177,16 +177,28 @@ thing Tron includes Adafruit_1_8pLCDShieldClient, TronMsgs
 				color[1] = '0xF800'
 				color[2] = '0x3FE0'
 				color[3] = '0x0FFF'
+				color[4] = '0xFF80'
+				color[5] = '0x8008'
+				color[6] = '0xFFFF'
+				color[7] = '0xF00F'
 				
 				hasLost[0] = false
 				hasLost[1] = false
 				hasLost[2] = false
 				hasLost[3] = false
+				hasLost[4] = false
+				hasLost[5] = false
+				hasLost[6] = false
+				hasLost[7] = false
 				
 				isReady[0] = false
 				isReady[1] = false
 				isReady[2] = false
 				isReady[3] = false
+				isReady[4] = false
+				isReady[5] = false
+				isReady[6] = false
+				isReady[7] = false
 			end
 			transition -> Discovery event lcd?LCDready
 		}
@@ -272,6 +284,30 @@ thing Tron includes Adafruit_1_8pLCDShieldClient, TronMsgs
 					tailX = 30
 					tailY = 10
                 end
+                if(myID == 4) do
+					headX = 10
+					headY = 20
+					tailX = 10
+					tailY = 20
+                end
+                if(myID == 5) do
+					headX = 30
+					headY = 20
+					tailX = 30
+					tailY = 20
+                end
+                if(myID == 6) do
+					headX = 10
+					headY = 30
+					tailX = 10
+					tailY = 30
+                end
+                if(myID == 7) do
+					headX = 30
+					headY = 30
+					tailX = 30
+					tailY = 30
+                end
 			end
 
 			internal event e : TronPort?mayIHaveID action do
@@ -289,6 +325,9 @@ thing Tron includes Adafruit_1_8pLCDShieldClient, TronMsgs
 
 			internal event e : TronPort?tronReady action do
 				isReady[e.id] = true
+				if (not(nbID > e.id)) do
+					nbID = e.id +1
+				end
 			end
 
 			transition -> Ready event button?button_state_change action do
@@ -325,6 +364,9 @@ thing Tron includes Adafruit_1_8pLCDShieldClient, TronMsgs
 
 			internal event e : TronPort?tronReady action do
 				isReady[e.id] = true
+				if (not(nbID > e.id)) do
+					nbID = e.id +1
+				end
 			end
 			transition -> Game event arduino?100ms_interrupt guard shallWe() action do
 				TronPort!tronGo(nbID)
