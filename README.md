@@ -1,8 +1,8 @@
 # ThingML-Tron
 
-ThingML-Tron is a multi player game for arduino developped with ThingML. I has been developped for arduinos uno (from 2 to 8) connected through UART. (Code for a gateway targetting an arduino mega is also available.)
+ThingML-Tron is a multi-player game for arduino developped with ThingML. It has been developped for arduinos uno (from 2 to 8) connected through UART. (Code for a gateway targetting an arduino mega is also available.) The display used is Adfruit 1.8 inches LCD shield with a joystick, but it can be modify by replacing the [LCD lib](https://github.com/Lyadis/ThingML-Tron/blob/master/lib/_1_8pLCD.thingml) by a similar one corresponding to your own display.
 
-Uploadable sources are inthe directory thingml-gen (in C for arduino), but you can regenerate the code with ThingML tools if you wish to alter it.
+Uploadable sources are in the directory thingml-gen (in C for arduino), but you can regenerate the code with ThingML tools if you wish to alter it.
 
 Here is an example of a 2 players setup:
 
