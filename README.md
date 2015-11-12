@@ -11,6 +11,9 @@ Here is an example of a 2 players setup:
 And here a 4 players setup connected through an arduino mega gateway:
 <img src="https://raw.githubusercontent.com/Lyadis/ThingML-Tron/master/img/DSC_0309.JPG" alt="4 players setup" >
 
+##Deployment
+Once the [generated sketch](https://github.com/Lyadis/ThingML-Tron/blob/master/thingml-gen/TronCfg/TronCfg.pde) is uploaded on each arduino, (and that all the devices are connected). You should reset each arduino uno, and they will asign themself a color, and should be ready to play.
+
 ##About ThingML
 
 ThingML is a modeling language for embedded and distributed systems. It is developped by the Networked Systems and Services department of SINTEF in Oslo, Norway.
