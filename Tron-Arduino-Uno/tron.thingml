@@ -1,23 +1,25 @@
 import "../lib/_1_8pLCD.thingml"
 import "../lib/TronMsgs.thingml"
 
+protocol Timer;
+protocol Serial @serializer "Binary";
+
 configuration TronCfg {
 
 	instance myLCD : Adafruit_1_8pLCDShieldShield
-    instance arduinoScheduler:  ArduinoScheduler
     instance tron: Tron	
     
     connector tron.lcd => myLCD.lcd
 	connector tron.button => myLCD.button
-	connector tron.arduino => arduinoScheduler.arduino
-	connector myLCD.arduino => arduinoScheduler.arduino
 
+	connector tron.timer over Timer
+	connector myLCD.timer over Timer
 	connector tron.TronPort over Serial
 	@trace_level "0"
 	
 }
 
-thing Tron includes Adafruit_1_8pLCDShieldClient, TronMsgs 
+thing Tron includes Adafruit_1_8pLCDShieldClient, TronMsgs , TimerMsgs
 @c_header "
 #define _SNAKE_TAB_SIZE 273 // 2184 / 8 "
 @c_global "volatile uint8_t tab[_SNAKE_TAB_SIZE];"
@@ -25,6 +27,11 @@ thing Tron includes Adafruit_1_8pLCDShieldClient, TronMsgs
 	provided port TronPort {
 		sends addHead, loose, tronReady, tronGo, hasID, iHaveID, mayIHaveID
 		receives addHead, loose, tronReady, tronGo, hasID, iHaveID, mayIHaveID
+	}
+
+	required port timer {
+		receives 100ms_tic, timeout
+		sends timer_start, timer_cancel
 	}
 	
 	property myID : UInt8 = 0
@@ -212,17 +219,17 @@ thing Tron includes Adafruit_1_8pLCDShieldClient, TronMsgs
                 lcd!print_str("Discovery phase.")
 				
 				TronPort!hasID(curID)
-				arduino!timer_start(0, 300)
+				timer!timer_start(0, 300)
 			end
 
 			internal event e : TronPort?iHaveID guard (e.id == curID) action do
-				arduino!timer_cancel(0)
-				arduino!timer_start(0, 300)
+				timer!timer_cancel(0)
+				timer!timer_start(0, 300)
                 lcd!drawRect('2+3*'&curID,2,2,2,color[curID])
 				curID = curID + 1
 			end
 			
-			transition -> IDoption event arduino?timeout action do
+			transition -> IDoption event timer?timeout action do
 				myID = curID
 			end
 
@@ -231,24 +238,24 @@ thing Tron includes Adafruit_1_8pLCDShieldClient, TronMsgs
 		state IDoption {
 			on entry do
                 TronPort!mayIHaveID(myID)
-				arduino!timer_start(0, 300)
+				timer!timer_start(0, 300)
 				lcd!drawRect(1,1,127,157,color[myID])
 			end
 
 			transition -> Discovery event e : TronPort?iHaveID guard (e.id == curID) action do
-				arduino!timer_cancel(0)
+				timer!timer_cancel(0)
 			end
 			transition -> RandomWait event e : TronPort?mayIHaveID guard (e.id == curID) action do
-				arduino!timer_cancel(0)
+				timer!timer_cancel(0)
 			end
-			transition -> RendezVous event arduino?timeout
+			transition -> RendezVous event timer?timeout
 		}
 
 		state RandomWait {
 			on entry do
-				arduino!timer_start(0, 'random(0, 1200)')
+				timer!timer_start(0, 'random(0, 1200)')
 			end
-			transition -> Discovery event arduino?timeout
+			transition -> Discovery event timer?timeout
 		}
 		
 		state RendezVous {
@@ -368,9 +375,13 @@ thing Tron includes Adafruit_1_8pLCDShieldClient, TronMsgs
 					nbID = e.id +1
 				end
 			end
-			transition -> Game event arduino?100ms_interrupt guard shallWe() action do
+
+			transition -> Game event timer?100ms_tic
+			guard shallWe()
+			action do
 				TronPort!tronGo(nbID)
 			end
+
 			transition -> Game event e : TronPort?tronGo action do
 				nbID = e.nbID
 			end
@@ -391,7 +402,7 @@ thing Tron includes Adafruit_1_8pLCDShieldClient, TronMsgs
 
 
 				nbReady = 0
-				arduino!timer_start(timer, speed)
+				timer!timer_start(timer, speed)
 			end
 				
 			internal event e : button?button_state_change guard ((e.bstate == 1) or (e.bstate == 2) or (e.bstate == 4) or (e.bstate == 5)) action do
@@ -418,8 +429,8 @@ thing Tron includes Adafruit_1_8pLCDShieldClient, TronMsgs
 				end
 			end
 			
-			internal event arduino?timeout guard not(lost or won) action do
-				arduino!timer_start(timer, speed)
+			internal event timer?timeout guard not(lost or won) action do
+				timer!timer_start(timer, speed)
 				direction = dirBuff
 				'switch('&direction&') {
 					case B00000000:
@@ -470,8 +481,8 @@ thing Tron includes Adafruit_1_8pLCDShieldClient, TronMsgs
 				won = hasWon()
 			end
 			
-			transition -> Defeat event arduino?timeout guard lost
-			transition -> Victory event arduino?timeout guard won
+			transition -> Defeat event timer?timeout guard lost
+			transition -> Victory event timer?timeout guard won
 		}
 		
 		state Defeat {
